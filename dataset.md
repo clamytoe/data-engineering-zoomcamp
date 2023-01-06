@@ -1,3 +1,5 @@
+# What Makes A City Street Smart
+
 [Medium article](https://medium.com/@NYCTLC/what-makes-a-city-street-smart-23496d92f60d)
 
 [Trip record user guide](https://www1.nyc.gov/assets/tlc/downloads/pdf/trip_record_user_guide.pdf)
@@ -9,11 +11,9 @@ The data set is divided into 4 parts:
 - For Hire Vehicles
 - High volume for hire vehicles
 
-
-
 Below I am only concentrating on Yellow and green cabs
 
-### Yellow and green cabs
+## Yellow and green cabs
 
 ,
 
@@ -40,9 +40,7 @@ Below I am only concentrating on Yellow and green cabs
 | trip_type             |            | 1                   |
 | congestion_surcharge  |            | 0                   |
 
-
-
-### Taxi zone Loopup
+## Taxi zone Loopup
 
 | Columns      | Definition | Example        |
 | ------------ | ---------- | -------------- |
@@ -54,4 +52,3 @@ Below I am only concentrating on Yellow and green cabs
 [Shapefile from S3](https://s3.amazonaws.com/nyctlc/misc/taxi_zones.zip)
 
 [Taxi zones](https://data.cityofnewyork.us/Transportation/NYC-Taxi-Zones/d3c5-ddgc)
-

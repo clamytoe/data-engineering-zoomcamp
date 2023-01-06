@@ -1,17 +1,14 @@
-### Introduction
+# Introduction
 
 * [Video](https://www.youtube.com/watch?v=bkJZDmreIpA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 * [Slides](https://www.slideshare.net/AlexeyGrigorev/data-engineering-zoomcamp-introduction)
 * Overview of [Architecture](https://github.com/DataTalksClub/data-engineering-zoomcamp#overview), [Technologies](https://github.com/DataTalksClub/data-engineering-zoomcamp#technologies) & [Pre-Requisites](https://github.com/DataTalksClub/data-engineering-zoomcamp#prerequisites)
 
-
 We suggest watching videos in the same order as in this document.
 
-The last video (setting up the environment) is optional, but you can check it earlier 
-if you have troubles setting up the environment and following along with the videos.
+The last video (setting up the environment) is optional, but you can check it earlier if you have troubles setting up the environment and following along with the videos.
 
-
-### Docker + Postgres
+## Docker + Postgres
 
 [Code](2_docker_sql)
 
@@ -48,8 +45,7 @@ if you have troubles setting up the environment and following along with the vid
   * Communicating between containers in the network
   * `.dockerignore` file
 
-
-### GCP + Terraform
+## GCP + Terraform
 
 [Code](1_terraform_gcp)
 
@@ -64,8 +60,7 @@ if you have troubles setting up the environment and following along with the vid
 * Configuring terraform and GCP SDK on Windows
   * [Instructions](1_terraform_gcp/windows.md)
 
-
-### Environment setup 
+## Environment setup
 
 For the course you'll need:
 
@@ -91,7 +86,7 @@ If you have problems setting up the env, you can check this video:
   * Using `sftp` for putting the credentials to the remote machine
   * Shutting down and removing the instance
 
-### Homework
+## Homework
 
 * [Homework](homework.md)
 * [Solution](https://www.youtube.com/watch?v=HxHqH2ARfxM&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
