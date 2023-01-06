@@ -1,18 +1,18 @@
-## GCP and Terraform on Windows
+# GCP and Terraform on Windows
 
-You don't need these instructions if you use WSL. It's only for "plain Windows" 
+You don't need these instructions if you use WSL. It's only for "plain Windows"
 
-### Google Cloud SDK
+## Google Cloud SDK
 
 * For this tutorial, you'll need a Linux-like environment, e.g. [GitBash](https://gitforwindows.org/), [MinGW](https://www.mingw-w64.org/) or [cygwin](https://www.cygwin.com/)
-  * Power Shell should also work, but will require adjustments 
-* Download SDK in zip: https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip
-  * source: https://cloud.google.com/sdk/docs/downloads-interactive
+  * Power Shell should also work, but will require adjustments
+* Download SDK in zip: <https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.zip>
+  * source: <https://cloud.google.com/sdk/docs/downloads-interactive>
 * Unzip it and run the `install.sh` script
 
 When installing it, you might see something like that:
 
-```
+```bash
 The installer is unable to automatically update your system PATH. Please add
   C:\tools\google-cloud-sdk\bin
 ```
@@ -36,7 +36,7 @@ core 2021.12.10
 gsutil 5.5
 ```
 
-### Google Cloud SDK Authentication 
+## Google Cloud SDK Authentication
 
 * Now create a service account and generate keys like shown in the videos
 * Download the key and put it to some location, e.g. `.gc/ny-rides.json`
@@ -46,7 +46,7 @@ gsutil 5.5
 export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/ny-rides.json
 ```
 
-Now authenticate: 
+Now authenticate:
 
 ```bash
 gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
@@ -61,7 +61,7 @@ gcloud auth application-default login
 If you get a message like `quota exceeded`
 
 > WARNING:
-> Cannot find a quota project to add to ADC. You might receive a "quota exceeded" or "API not enabled" error. 
+> Cannot find a quota project to add to ADC. You might receive a "quota exceeded" or "API not enabled" error.
 > Run `$ gcloud auth application-default set-quota-project` to add a quota project.
 
 Then run this:
@@ -71,8 +71,7 @@ PROJECT_NAME="ny-rides-alexey"
 gcloud auth application-default set-quota-project ${PROJECT_NAME}
 ```
 
-
-### Terraform 
+## Terraform
 
 * [Download Terraform](https://www.terraform.io/downloads)
 * Put it to a folder in [PATH](https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7)
@@ -101,7 +100,6 @@ If you get an error like that:
 > Error: googleapi: Error 403: terraform@ny-rides-alexey.iam.gserviceaccount.com does not have
 > storage.buckets.create access to the Google Cloud project., forbidden
 
-
-Then you need to give your service account all the permissions. Make sure you follow the instructions in the videos 
+Then you need to give your service account all the permissions. Make sure ou follow the instructions in the videos
 
 * You can also use [this file](https://docs.google.com/document/d/e/2PACX-1vSZapy7gIj0TP-EFzub2OpAlAkuifGEVJ4XpkA1RvxZ45NjiQi29b6OhLuetdXXHWAn2lbbKxnbzMdd/pub), but it doesn't list all the required permissions
