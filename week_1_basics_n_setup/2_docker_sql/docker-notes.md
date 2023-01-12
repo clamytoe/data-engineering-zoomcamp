@@ -145,3 +145,42 @@ docker run -it \
     --table_name=yellow_taxi_data \
     --url=${URL}
 ```
+
+## Docker Compose
+
+Now that everything is working, it's time to make it easier to run by combining all of these steps into one file.
+
+*docker-compose.yaml:*
+
+```yaml
+services:
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ny_taxi
+    volumes:
+      - "/home/clamytoe/Projects/data-engineering-zoomcamp/ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
+```
+
+### Run the services
+
+```bash
+docker-compose up -d
+```
+
+### Stop the services
+
+```bash
+docker-compose down
+```
