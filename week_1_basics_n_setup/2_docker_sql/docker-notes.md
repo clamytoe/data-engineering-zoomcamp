@@ -9,8 +9,8 @@ docker run -it \
   -e POSTGRES_DB="ny_taxi" \
   -v /home/clamytoe/Projects/data-engineering-zoomcamp/ny_taxi_postgres_data:/var/lib/postgresql/data \
   -p 5432:5432 \
-  postgres:13
-  ```
+  postgres:15
+```
 
 ## Connect to Postgres Container
 
@@ -91,7 +91,7 @@ docker run -it \
   -p 5432:5432 \
   --network=pg-network \
   --name pg-database \
-  postgres:13
+  postgres:15
   ```
 
 ### pgAdmin
@@ -157,7 +157,7 @@ Now that everything is working, it's time to make it easier to run by combining 
 ```yaml
 services:
   pgdatabase:
-    image: postgres:13
+    image: postgres:15
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
