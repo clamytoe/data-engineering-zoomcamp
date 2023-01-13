@@ -1,21 +1,41 @@
+version: "3.9"
+
 services:
+
   pgdatabase:
-    image: postgres:13
+    container_name: dtc_postgres
+    image: postgres:15
     environment:
+      - POSTGRES_DB=ny_taxi
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=ny_taxi
-    volumes:
-      - /home/clamytoe/Projects/data-engineering-zoomcamp/ny_taxi_postgres_data:/var/lib/postgresql/data
+    networks:
+      - pg-network
     ports:
       - "5432:5432"
+    volumes:
+      - type: bind
+        source: /home/clamytoe/Projects/data-engineering-zoomcamp/srv/ny_taxi_postgres_data
+        target: /var/lib/postgresql/data
 
   pgadmin:
+    container_name: dtc_pgadmin
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=root
-    volumes:
-      - /home/clamytoe/Projects/data-engineering-zoomcamp/pgadmin:/var/lib/pgadmin
+    networks:
+      - pg-network
     ports:
       - "8080:80"
+    volumes:
+      - type: volume
+        source: pgadmin_data
+        target: /var/lib/pgadmin
+
+networks:
+  pg-network:
+    external: true
+
+volumes:
+  pgadmin_data:
