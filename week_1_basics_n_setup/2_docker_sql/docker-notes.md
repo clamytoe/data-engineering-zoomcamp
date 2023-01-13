@@ -194,4 +194,45 @@ To enable persistence with pgAdmin, make the following changes:
 *docker-compose.yaml:*
 
 ```yaml
+version: "3.9"
+
+services:
+
+  pgdatabase:
+    container_name: dtc_postgres
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=ny_taxi
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    networks:
+      - pg-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: bind
+        source: /home/clamytoe/Projects/data-engineering-zoomcamp/srv/ny_taxi_postgres_data
+        target: /var/lib/postgresql/data
+
+  pgadmin:
+    container_name: dtc_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    networks:
+      - pg-network
+    ports:
+      - "8080:80"
+    volumes:
+      - type: volume
+        source: pgadmin_data
+        target: /var/lib/pgadmin
+
+networks:
+  pg-network:
+    external: true
+
+volumes:
+  pgadmin_data:
 ```
