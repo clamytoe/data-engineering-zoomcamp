@@ -2,8 +2,9 @@
 
 ## Initialization
 
+`gcloud init`
+
 ```bash
-(base) ➜  data-engineering-zoomcamp git:(clamytoe) gcloud init
 Welcome! This command will take you through the configuration of gcloud.
 
 Your current configuration has been set to: [default]
@@ -64,8 +65,9 @@ Some things to try next:
 
 ## Auth List
 
+`gcloud auth list`
+
 ```bash
-(base) ➜  data-engineering-zoomcamp git:(clamytoe) gcloud auth list
   Credentialed Accounts
 ACTIVE  ACCOUNT
 *       clamytoe@gmail.com
@@ -76,8 +78,9 @@ To set the active account, run:
 
 ## Config List
 
+`gcloud config list`
+
 ```bash
-(base) ➜  data-engineering-zoomcamp git:(clamytoe) ✗ gcloud config list
 [core]
 account = clamytoe@gmail.com
 disable_usage_reporting = True
@@ -88,8 +91,9 @@ Your active configuration is: [default]
 
 ## Info
 
+`gcloud info`
+
 ```bash
-(base) ➜  data-engineering-zoomcamp git:(clamytoe) ✗ gcloud info
 Google Cloud SDK [412.0.0]
 
 Platform: [Linux, x86_64] uname_result(system='Linux', node='ROG-STRIX', release='5.15.79.1-microsoft-standard-WSL2', version='#1 SMP Wed Nov 23 01:01:46 UTC 2022', machine='x86_64')

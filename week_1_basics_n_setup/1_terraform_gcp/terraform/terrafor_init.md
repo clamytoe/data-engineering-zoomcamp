@@ -2,9 +2,9 @@
 
 ## Authenticate
 
-```bash
-(base) ➜  terraform git:(clamytoe) ✗ gcloud auth application-default login
+`gcloud auth application-default login`
 
+```bash
 The environment variable [GOOGLE_APPLICATION_CREDENTIALS] is set to:
   [/home/clamytoe/.ssh/dtc-de-course-374214-d1c03526690c.json]
 Credentials will still be generated to the default location:
@@ -29,9 +29,9 @@ Quota project "dtc-de-course-374214" was added to ADC which can be used by Googl
 
 ## Terraform Initialization
 
-```bash
-(base) ➜  terraform git:(clamytoe) ✗ terraform init
+`terraform init`
 
+```bash
 Initializing the backend...
 
 Successfully configured the backend "local"! Terraform will automatically
@@ -60,9 +60,9 @@ commands will detect it and remind you to do so if necessary.
 
 ## Terraform Plan
 
-```bash
-(base) ➜  terraform git:(clamytoe) ✗ terraform plan -var="project=dtc-de-course-374214"
+`terraform plan -var="project=dtc-de-course-374214"`
 
+```bash
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated
 with the following symbols:
   + create
@@ -159,9 +159,9 @@ if you run "terraform apply" now.
 
 ## Terraform Apply
 
-```bash
-(base) ➜  terraform git:(clamytoe) ✗ terraform apply -var="project=dtc-de-course-374214"
+`terraform apply -var="project=dtc-de-course-374214"`
 
+```bash
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated
 with the following symbols:
   + create
