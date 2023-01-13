@@ -134,17 +134,19 @@ docker build -t taxi_ingest:v001 .
 
 ```bash
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
-docker run -it \
+docker run -it --rm \
   --network=pg-network \
   taxi_ingest:v001 \
     --user=root \
     --password=root \
-    --host=pg-database \
+    --host=pgdatabase \
     --port=5432 \
     --db=ny_taxi \
     --table_name=yellow_taxi_data \
     --url=${URL}
 ```
+
+> **NOTE:** For local testing, you can start a local http server and download the data files from your machine: `python -m http.server`
 
 ## Docker Compose
 
@@ -183,4 +185,13 @@ docker-compose up -d
 
 ```bash
 docker-compose down
+```
+
+## Persistence with pgAdmin
+
+To enable persistence with pgAdmin, make the following changes:
+
+*docker-compose.yaml:*
+
+```yaml
 ```
