@@ -46,18 +46,9 @@ It should be the entire output - from the moment you typed `terraform init` to t
 
 Initializing the backend...
 
-Successfully configured the backend "local"! Terraform will automatically
-use this backend unless the backend configuration changes.
-
 Initializing provider plugins...
-- Finding latest version of hashicorp/google...
-- Installing hashicorp/google v4.48.0...
-- Installed hashicorp/google v4.48.0 (signed by HashiCorp)
-
-Terraform has created a lock file .terraform.lock.hcl to record the provider
-selections it made above. Include this file in your version control repository
-so that Terraform can guarantee to make the same selections by default when
-you run "terraform init" in the future.
+- Reusing previous version of hashicorp/google from the dependency lock file
+- Using previously-installed hashicorp/google v4.48.0
 
 Terraform has been successfully initialized!
 
@@ -68,10 +59,10 @@ should now work.
 If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
-(base) ➜  terraform git:(clamytoe) ✗ terraform plan -var="project=dtc-de-course-374214"
+(datasci) ➜  terraform git:(clamytoe) terraform plan -var="project=dtc-de-course-374214"
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated
-with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
+the following symbols:
   + create
 
 Terraform will perform the following actions:
@@ -85,7 +76,7 @@ Terraform will perform the following actions:
       + id                         = (known after apply)
       + labels                     = (known after apply)
       + last_modified_time         = (known after apply)
-      + location                   = "europe-west6"
+      + location                   = "us-central1"
       + project                    = "dtc-de-course-374214"
       + self_link                  = (known after apply)
 
@@ -123,7 +114,7 @@ Terraform will perform the following actions:
   + resource "google_storage_bucket" "data-lake-bucket" {
       + force_destroy               = true
       + id                          = (known after apply)
-      + location                    = "EUROPE-WEST6"
+      + location                    = "US-CENTRAL1"
       + name                        = "dtc_data_lake_dtc-de-course-374214"
       + project                     = (known after apply)
       + public_access_prevention    = (known after apply)
@@ -158,14 +149,14 @@ Terraform will perform the following actions:
 
 Plan: 2 to add, 0 to change, 0 to destroy.
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions
 if you run "terraform apply" now.
-(base) ➜  terraform git:(clamytoe) ✗ terraform apply -var="project=dtc-de-course-374214"
+(datasci) ➜  terraform git:(clamytoe) ✗ terraform apply -var="project=dtc-de-course-374214"
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated
-with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
+the following symbols:
   + create
 
 Terraform will perform the following actions:
@@ -179,7 +170,7 @@ Terraform will perform the following actions:
       + id                         = (known after apply)
       + labels                     = (known after apply)
       + last_modified_time         = (known after apply)
-      + location                   = "europe-west6"
+      + location                   = "us-central1"
       + project                    = "dtc-de-course-374214"
       + self_link                  = (known after apply)
 
@@ -217,7 +208,7 @@ Terraform will perform the following actions:
   + resource "google_storage_bucket" "data-lake-bucket" {
       + force_destroy               = true
       + id                          = (known after apply)
-      + location                    = "EUROPE-WEST6"
+      + location                    = "US-CENTRAL1"
       + name                        = "dtc_data_lake_dtc-de-course-374214"
       + project                     = (known after apply)
       + public_access_prevention    = (known after apply)
@@ -260,8 +251,8 @@ Do you want to perform these actions?
 
 google_bigquery_dataset.dataset: Creating...
 google_storage_bucket.data-lake-bucket: Creating...
-google_bigquery_dataset.dataset: Creation complete after 2s [id=projects/dtc-de-course-374214/datasets/trips_data_all]
-google_storage_bucket.data-lake-bucket: Creation complete after 2s [id=dtc_data_lake_dtc-de-course-374214]
+google_storage_bucket.data-lake-bucket: Creation complete after 1s [id=dtc_data_lake_dtc-de-course-374214]
+google_bigquery_dataset.dataset: Creation complete after 1s [id=projects/dtc-de-course-374214/datasets/trips_data_all]
 
 Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 ```
