@@ -86,7 +86,7 @@ def read_parquet(data_file_name, table_name, engine):
     t_start = time()
     # initialize progrogress bar
     with tqdm(total=max_size, unit="steps", unit_scale=True) as pbar:
-        while True:
+        while not last_run:
             # insert chunks
             df.iloc[start:current].to_sql(
                 name="yellow_taxi_data", con=engine, if_exists="append", method="multi"
@@ -99,9 +99,6 @@ def read_parquet(data_file_name, table_name, engine):
                 current = max_size
                 last_run = True
             pbar.update(chunksize)
-
-            if last_run:
-                break
 
     t_end = time()
     print(
