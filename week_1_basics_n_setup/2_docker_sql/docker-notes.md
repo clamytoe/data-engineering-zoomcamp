@@ -132,6 +132,8 @@ docker build -t taxi_ingest:v001 .
 
 ### Run the image
 
+*yellow_taxi_data*:
+
 ```bash
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
 # URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
@@ -144,6 +146,38 @@ docker run -it --rm \
     --port=5432 \
     --db=ny_taxi \
     --table_name=yellow_taxi_data \
+    --url=${URL}
+```
+
+*green_taxi_data*:
+
+```bash
+URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-01.csv.gz"
+docker run -it --rm \
+  --network=pg-network \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=pgdatabase \
+    --port=5432 \
+    --db=ny_taxi \
+    --table_name=green_taxi_data \
+    --url=${URL}
+```
+
+*zones*:
+
+```bash
+URL="https://s3.amazonaws.com/nyc-tlc/misc/taxi+_zone_lookup.csv"
+docker run -it --rm \
+  --network=pg-network \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=pgdatabase \
+    --port=5432 \
+    --db=ny_taxi \
+    --table_name=zones \
     --url=${URL}
 ```
 
