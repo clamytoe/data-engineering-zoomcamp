@@ -22,3 +22,9 @@ variable "BQ_DATASET" {
   type        = string
   default     = "trips_data_all"
 }
+
+variable "TABLE_NAME" {
+  description = "BigQuery Table"
+  type        = string
+  default     = "ny_trips"
+}
