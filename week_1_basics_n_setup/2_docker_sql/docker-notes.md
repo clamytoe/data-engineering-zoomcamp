@@ -134,6 +134,7 @@ docker build -t taxi_ingest:v001 .
 
 ```bash
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+# URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
 docker run -it --rm \
   --network=pg-network \
   taxi_ingest:v001 \

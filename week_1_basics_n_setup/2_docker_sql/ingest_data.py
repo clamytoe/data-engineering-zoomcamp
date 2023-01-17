@@ -24,7 +24,7 @@ def main(params):
     if url.endswith(".csv.gz"):
         data_file_name = "output.csv.gz"
         read_data = read_csv
-    elif url.endswith()(".parquet"):
+    elif url.endswith(".parquet"):
         data_file_name = "output.parquet"
         read_data = read_parquet
     else:
@@ -71,9 +71,10 @@ def read_parquet(data_file_name, table_name, engine):
     df = pd.read_parquet(data_file_name, engine="pyarrow")
 
     # create the table
-    t_start = time.time()
+    t_start = time()
     df.head(n=0).to_sql(name="yellow_taxi_data", con=engine, if_exists="replace")
-    t_end = time.time()
+    t_end = time()
+    print(f"Created table: {table_name}")
 
     chunksize = 10_000
     max_size = df.shape[0]
@@ -81,10 +82,11 @@ def read_parquet(data_file_name, table_name, engine):
     start = 0
     current = chunksize
 
-    t_start = time.time()
+    print("Ingesting data...")
+    t_start = time()
     # initialize progrogress bar
     with tqdm(total=max_size, unit="steps", unit_scale=True) as pbar:
-        while not last_run:
+        while True:
             # insert chunks
             df.iloc[start:current].to_sql(
                 name="yellow_taxi_data", con=engine, if_exists="append", method="multi"
@@ -92,11 +94,16 @@ def read_parquet(data_file_name, table_name, engine):
 
             start = current
             current += chunksize
+
             if current > max_size:
                 current = max_size
                 last_run = True
             pbar.update(chunksize)
-    t_end = time.time()
+
+            if last_run:
+                break
+
+    t_end = time()
     print(
         f"Finished ingesting data into the postgres database, {t_end - t_start:.3f} seconds"
     )
