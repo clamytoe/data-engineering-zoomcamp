@@ -75,20 +75,23 @@ Tip: started and finished on 2019-01-15.
 Remember that `lpep_pickup_datetime` and `lpep_dropoff_datetime` columns are in the format timestamp (date and hour+min+sec) and not in date.
 
 ```sql
-SELECT COUNT(*)
-FROM GREEN_TAXI_DATA
-WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-15'
- AND DATE(LPEP_DROPOFF_DATETIME) = '2019-01-15';
+SELECT 
+  COUNT(*) as total_trips
+FROM 
+  green_taxi_data
+WHERE 
+  DATE(lpep_pickup_datetime) = '2019-01-15' AND 
+  DATE(lpep_dropoff_datetime) = '2019-01-15';
 ```
 
 *output*:
 
 ```bash
-+-------+
-| count |
-|-------|
-| 20530 |
-+-------+
++-------------+
+| total_trips |
+|-------------|
+| 20530       |
++-------------+
 ```
 
 - 20689
@@ -102,15 +105,48 @@ Which was the day with the largest trip distance
 Use the pick up time for your calculations.
 
 ```sql
-SELECT DATE(LPEP_PICKUP_DATETIME) AS PICKUP,
- ROUND(SUM(TRIP_DISTANCE)) AS DISTANCE
-FROM GREEN_TAXI_DATA
-WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-18'
- OR DATE(LPEP_PICKUP_DATETIME) = '2019-01-28'
- OR DATE(LPEP_PICKUP_DATETIME) = '2019-01-15'
- OR DATE(LPEP_PICKUP_DATETIME) = '2019-01-10'
-GROUP BY PICKUP
-ORDER BY DISTANCE DESC;
+WITH trips_by_day AS (
+  SELECT 
+    DATE(lpep_pickup_datetime) as day,
+    ROUND(sum(trip_distance)) as total_distance
+  FROM 
+    green_taxi_data
+  GROUP BY 
+    day
+)
+SELECT 
+  day, 
+  total_distance
+FROM 
+  trips_by_day
+ORDER BY 
+  total_distance DESC
+LIMIT 10;
+```
+
+*output*:
+
+```bash
++------------+----------------+
+| day        | total_distance |
+|------------+----------------|
+| 2019-01-25 | 83746.0        |
+| 2019-01-17 | 80241.0        |
+| 2019-01-11 | 79742.0        |
+| 2019-01-10 | 79531.0        |
++------------+----------------+
+```
+
+```sql
+SELECT DATE(lpep_pickup_datetime) AS pickup_date,
+ ROUND(SUM(trip_distance)) AS distance
+FROM green_taxi_data
+WHERE DATE(lpep_pickup_datetime) = '2019-01-18'
+ OR DATE(lpep_pickup_datetime) = '2019-01-28'
+ OR DATE(lpep_pickup_datetime) = '2019-01-15'
+ OR DATE(lpep_pickup_datetime) = '2019-01-10'
+GROUP BY pickup_date
+ORDER BY distance DESC;
 ```
 
 *output*:
@@ -136,37 +172,24 @@ ORDER BY DISTANCE DESC;
 In 2019-01-01 how many trips had 2 and 3 passengers?
 
 ```sql
-SELECT COUNT(PASSENGER_COUNT) AS TWO
-FROM GREEN_TAXI_DATA
-WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-01'
- AND PASSENGER_COUNT = 2;
+SELECT 
+  COUNT(CASE WHEN passenger_count = 2 THEN 1 END) as trips_with_2_passengers,
+  COUNT(CASE WHEN passenger_count = 3 THEN 1 END) as trips_with_3_passengers
+FROM 
+  green_taxi_data
+WHERE 
+  lpep_pickup_datetime >= '2019-01-01' AND 
+  lpep_pickup_datetime < '2019-01-02';
 ```
 
 *output*:
 
 ```bash
-+------+
-| two  |
-|------|
-| 1282 |
-+------+
-```
-
-```sql
-SELECT COUNT(PASSENGER_COUNT) AS THREE
-FROM GREEN_TAXI_DATA
-WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-01'
- AND PASSENGER_COUNT = 3;
-```
-
-*output*:
-
-```bash
-+-------+
-| three |
-|-------|
-| 254   |
-+-------+
++-------------------------+-------------------------+
+| trips_with_2_passengers | trips_with_3_passengers |
+|-------------------------+-------------------------|
+| 1282                    | 254                     |
++-------------------------+-------------------------+
 ```
 
 - 2: 1282 ; 3: 266
@@ -182,38 +205,38 @@ We want the name of the zone, not the id.
 Note: it's not a typo, it's `tip` , not `trip`
 
 ```sql
-SELECT ROUND(SUM(TIP_AMOUNT)),
- ZDO."Zone" AS "dropoff_loc"
-FROM GREEN_TAXI_DATA T,
- ZONES ZPU,
- ZONES ZDO
-WHERE T."DOLocationID" = ZDO."LocationID"
- AND ZPU."Zone" = 'Astoria'
- AND (ZDO."Zone" = 'Central Park'
-      OR ZDO."Zone" = 'Jamaica'
-      OR ZDO."Zone" = 'South Ozone Park'
-      OR ZDO."Zone" = 'Long Island City/Queens Plaza')
-GROUP BY DROPOFF_LOC
-ORDER BY SUM(TIP_AMOUNT) DESC;
+WITH astoria_trips AS
+ (SELECT g."PULocationID",
+   g."DOLocationID",
+   g."tip_amount"
+  FROM green_taxi_data g
+  WHERE g."PULocationID" IN
+    (SELECT z."LocationID"
+     FROM zones z
+     WHERE z."Zone" = 'Astoria' ) )
+SELECT zones."Zone" AS dropoff_zone,
+ MAX(astoria_trips."tip_amount") AS max_tip
+FROM astoria_trips
+JOIN zones ON astoria_trips."DOLocationID" = zones."LocationID"
+GROUP BY dropoff_zone
+ORDER BY max_tip DESC
+LIMIT 1;
 ```
 
 *output*:
 
 ```bash
-+--------+-------------------------------+
-| round  | dropoff_loc                   |
-|--------+-------------------------------|
-| 4298.0 | Central Park                  |
-| 2194.0 | South Ozone Park              |
-| 2088.0 | Long Island City/Queens Plaza |
-| 1678.0 | Jamaica                       |
-+--------+-------------------------------+
++-------------------------------+---------+
+| dropoff_zone                  | max_tip |
+|-------------------------------+---------|
+| Long Island City/Queens Plaza | 88.0    |
++-------------------------------+---------+
 ```
 
-- **Central Park**
+- Central Park
 - Jamaica
 - South Ozone Park
-- Long Island City/Queens Plaza
+- **Long Island City/Queens Plaza**
 
 ## Submitting the solutions
 
