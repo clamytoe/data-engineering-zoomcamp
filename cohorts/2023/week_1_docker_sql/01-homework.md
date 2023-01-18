@@ -58,8 +58,11 @@ WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-15'
 *output*:
 
 ```sqls
-"count"
-20530
++-------+
+| count |
+|-------|
+| 20530 |
++-------+
 ```
 
 - 20689
@@ -85,8 +88,11 @@ LIMIT 1;
 *output*:
 
 ```sql
-"pickup" "distance"
-"2019-01-25" 83746
++------------+----------+
+| pickup     | distance |
+|------------+----------|
+| 2019-01-25 | 83746.0  |
++------------+----------+
 ```
 
 - 2019-01-18
@@ -154,8 +160,8 @@ LIMIT 1;
 *output*:
 
 ```sql
-"tip_amount"	"pickup_loc"	"dropoff_loc"
-100	"Astoria"	"Union Sq"
+"tip_amount" "pickup_loc" "dropoff_loc"
+100 "Astoria" "Union Sq"
 ```
 
 - Central Park
