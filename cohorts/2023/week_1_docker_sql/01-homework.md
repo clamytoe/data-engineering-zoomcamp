@@ -57,7 +57,7 @@ WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-15'
 
 *output*:
 
-```sqls
+```bash
 +-------+
 | count |
 |-------|
@@ -87,7 +87,7 @@ LIMIT 1;
 
 *output*:
 
-```sql
+```bash
 +------------+----------+
 | pickup     | distance |
 |------------+----------|
@@ -113,9 +113,12 @@ WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-01'
 
 *output*:
 
-```sql
-"two"
-1282
+```bash
++------+
+| two  |
+|------|
+| 1282 |
++------+
 ```
 
 ```sql
@@ -127,9 +130,12 @@ WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-01'
 
 *output*:
 
-```sql
-"three"
-254
+```bash
++-------+
+| three |
+|-------|
+| 254   |
++-------+
 ```
 
 - 2: 1282 ; 3: 266
@@ -159,9 +165,12 @@ LIMIT 1;
 
 *output*:
 
-```sql
-"tip_amount" "pickup_loc" "dropoff_loc"
-100 "Astoria" "Union Sq"
+```bash
++------------+------------+-------------+
+| tip_amount | pickup_loc | dropoff_loc |
+|------------+------------+-------------|
+| 100.0      | Astoria    | Union Sq    |
++------------+------------+-------------+
 ```
 
 - Central Park
