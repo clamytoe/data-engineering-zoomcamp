@@ -79,10 +79,12 @@ Use the pick up time for your calculations.
 SELECT DATE(LPEP_PICKUP_DATETIME) AS PICKUP,
  ROUND(SUM(TRIP_DISTANCE)) AS DISTANCE
 FROM GREEN_TAXI_DATA
+WHERE DATE(LPEP_PICKUP_DATETIME) = '2019-01-18'
+ OR DATE(LPEP_PICKUP_DATETIME) = '2019-01-28'
+ OR DATE(LPEP_PICKUP_DATETIME) = '2019-01-15'
+ OR DATE(LPEP_PICKUP_DATETIME) = '2019-01-10'
 GROUP BY PICKUP
-ORDER BY DISTANCE DESC,
- PICKUP ASC
-LIMIT 1;
+ORDER BY DISTANCE DESC;
 ```
 
 *output*:
@@ -91,14 +93,17 @@ LIMIT 1;
 +------------+----------+
 | pickup     | distance |
 |------------+----------|
-| 2019-01-25 | 83746.0  |
+| 2019-01-10 | 79531.0  |
+| 2019-01-18 | 76829.0  |
+| 2019-01-15 | 74856.0  |
+| 2019-01-28 | 74054.0  |
 +------------+----------+
 ```
 
 - 2019-01-18
 - 2019-01-28
 - 2019-01-15
-- 2019-01-10
+- **2019-01-10**
 
 ## Question 5. The number of passengers
 
@@ -151,29 +156,35 @@ We want the name of the zone, not the id.
 Note: it's not a typo, it's `tip` , not `trip`
 
 ```sql
-SELECT TIP_AMOUNT,
- ZPU."Zone" AS "pickup_loc",
+SELECT ROUND(SUM(TIP_AMOUNT)),
  ZDO."Zone" AS "dropoff_loc"
 FROM GREEN_TAXI_DATA T,
  ZONES ZPU,
  ZONES ZDO
 WHERE T."DOLocationID" = ZDO."LocationID"
  AND ZPU."Zone" = 'Astoria'
-ORDER BY TIP_AMOUNT DESC
-LIMIT 1;
+ AND (ZDO."Zone" = 'Central Park'
+      OR ZDO."Zone" = 'Jamaica'
+      OR ZDO."Zone" = 'South Ozone Park'
+      OR ZDO."Zone" = 'Long Island City/Queens Plaza')
+GROUP BY DROPOFF_LOC
+ORDER BY SUM(TIP_AMOUNT) DESC;
 ```
 
 *output*:
 
 ```bash
-+------------+------------+-------------+
-| tip_amount | pickup_loc | dropoff_loc |
-|------------+------------+-------------|
-| 100.0      | Astoria    | Union Sq    |
-+------------+------------+-------------+
++--------+-------------------------------+
+| round  | dropoff_loc                   |
+|--------+-------------------------------|
+| 4298.0 | Central Park                  |
+| 2194.0 | South Ozone Park              |
+| 2088.0 | Long Island City/Queens Plaza |
+| 1678.0 | Jamaica                       |
++--------+-------------------------------+
 ```
 
-- Central Park
+- **Central Park**
 - Jamaica
 - South Ozone Park
 - Long Island City/Queens Plaza
