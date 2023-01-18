@@ -12,6 +12,23 @@ Now run the command to get help on the "docker build" command
 
 Which tag has the following text? - *Write the image ID to the file*
 
+```bash
+docker build --help
+
+Usage:  docker build [OPTIONS] PATH | URL | -
+
+Build an image from a Dockerfile
+
+Options:
+      --add-host list           Add a custom host-to-IP mapping (host:ip)
+      --build-arg list          Set build-time variables
+      --cache-from strings      Images to consider as cache sources
+      --disable-content-trust   Skip image verification (default true)
+  -f, --file string             Name of the Dockerfile (Default is 'PATH/Dockerfile')
+      --iidfile string          Write the image ID to the file
+...
+```
+
 - `--imageid string`
 - **`--iidfile string`**
 - `--idimage string`
@@ -22,6 +39,15 @@ Which tag has the following text? - *Write the image ID to the file*
 Run docker with the python:3.9 image in an iterative mode and the entrypoint of bash.
 Now check the python modules that are installed ( use pip list).
 How many python packages/modules are installed?
+
+```bash
+root@83c35a214ac0:/# pip list
+Package    Version
+---------- -------
+pip        22.0.4
+setuptools 58.1.0
+wheel      0.38.4
+```
 
 - 1
 - 6
