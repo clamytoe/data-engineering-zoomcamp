@@ -80,25 +80,6 @@ SELECT
 FROM 
   green_taxi_data
 WHERE 
-  DATE(lpep_pickup_datetime) = '2019-01-15';
-```
-
-*output*:
-
-```bash
-+-------------+
-| total_trips |
-|-------------|
-| 20689       |
-+-------------+
-```
-
-```sql
-SELECT 
-  COUNT(*) as total_trips
-FROM 
-  green_taxi_data
-WHERE 
   DATE(lpep_pickup_datetime) = '2019-01-15' AND 
   DATE(lpep_dropoff_datetime) = '2019-01-15';
 ```
@@ -134,7 +115,7 @@ ORDER BY distance DESC
 LIMIT 1;
 ```
 
-*actual*:
+*output*:
 
 ```bash
 +------------+----------+
