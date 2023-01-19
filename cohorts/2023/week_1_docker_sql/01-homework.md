@@ -105,6 +105,27 @@ Which was the day with the largest trip distance
 Use the pick up time for your calculations.
 
 ```sql
+SELECT 
+    DATE(lpep_pickup_datetime)  as pickup,
+    ROUND(SUM(trip_distance)) AS distance
+FROM 
+    green_taxi_data
+GROUP BY pickup
+ORDER BY distance DESC
+LIMIT 1;
+```
+
+*actual*:
+
+```bash
++------------+----------+
+| pickup     | distance |
+|------------+----------|
+| 2019-01-25 | 83746.0  |
++------------+----------+
+```
+
+```sql
 WITH trips_by_day AS (
   SELECT 
     DATE(lpep_pickup_datetime) as day,
@@ -121,7 +142,7 @@ FROM
   trips_by_day
 ORDER BY 
   total_distance DESC
-LIMIT 10;
+LIMIT 4;
 ```
 
 *output*:
