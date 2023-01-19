@@ -76,12 +76,12 @@ Remember that `lpep_pickup_datetime` and `lpep_dropoff_datetime` columns are in 
 
 ```sql
 SELECT 
-  COUNT(*) as total_trips
+    COUNT(*) as total_trips
 FROM 
-  green_taxi_data
+    green_taxi_data
 WHERE 
-  DATE(lpep_pickup_datetime) = '2019-01-15' AND 
-  DATE(lpep_dropoff_datetime) = '2019-01-15';
+    DATE(lpep_pickup_datetime) = '2019-01-15' AND 
+    DATE(lpep_dropoff_datetime) = '2019-01-15';
 ```
 
 *output*:
@@ -106,11 +106,10 @@ Use the pick up time for your calculations.
 
 ```sql
 SELECT 
-    DATE(lpep_pickup_datetime)  as pickup,
-    ROUND(SUM(trip_distance)) AS distance
+    DATE(lpep_pickup_datetime) as pickup,
+    trip_distance AS distance
 FROM 
     green_taxi_data
-GROUP BY pickup
 ORDER BY distance DESC
 LIMIT 1;
 ```
@@ -121,72 +120,14 @@ LIMIT 1;
 +------------+----------+
 | pickup     | distance |
 |------------+----------|
-| 2019-01-25 | 83746.0  |
-+------------+----------+
-```
-
-```sql
-WITH trips_by_day AS (
-  SELECT 
-    DATE(lpep_pickup_datetime) as day,
-    ROUND(sum(trip_distance)) as total_distance
-  FROM 
-    green_taxi_data
-  GROUP BY 
-    day
-)
-SELECT 
-  day, 
-  total_distance
-FROM 
-  trips_by_day
-ORDER BY 
-  total_distance DESC
-LIMIT 4;
-```
-
-*output*:
-
-```bash
-+------------+----------------+
-| day        | total_distance |
-|------------+----------------|
-| 2019-01-25 | 83746.0        |
-| 2019-01-17 | 80241.0        |
-| 2019-01-11 | 79742.0        |
-| 2019-01-10 | 79531.0        |
-+------------+----------------+
-```
-
-```sql
-SELECT DATE(lpep_pickup_datetime) AS pickup_date,
- ROUND(SUM(trip_distance)) AS distance
-FROM green_taxi_data
-WHERE DATE(lpep_pickup_datetime) = '2019-01-18'
- OR DATE(lpep_pickup_datetime) = '2019-01-28'
- OR DATE(lpep_pickup_datetime) = '2019-01-15'
- OR DATE(lpep_pickup_datetime) = '2019-01-10'
-GROUP BY pickup_date
-ORDER BY distance DESC;
-```
-
-*output*:
-
-```bash
-+------------+----------+
-| pickup     | distance |
-|------------+----------|
-| 2019-01-10 | 79531.0  |
-| 2019-01-18 | 76829.0  |
-| 2019-01-15 | 74856.0  |
-| 2019-01-28 | 74054.0  |
+| 2019-01-15 | 117.99   |
 +------------+----------+
 ```
 
 - 2019-01-18
 - 2019-01-28
-- 2019-01-15
-- **2019-01-10**
+- **2019-01-15**
+- 2019-01-10
 
 ## Question 5. The number of passengers
 
@@ -194,13 +135,13 @@ In 2019-01-01 how many trips had 2 and 3 passengers?
 
 ```sql
 SELECT 
-  COUNT(CASE WHEN passenger_count = 2 THEN 1 END) as trips_with_2_passengers,
-  COUNT(CASE WHEN passenger_count = 3 THEN 1 END) as trips_with_3_passengers
+    COUNT(CASE WHEN passenger_count = 2 THEN 1 END) as trips_with_2_passengers,
+    COUNT(CASE WHEN passenger_count = 3 THEN 1 END) as trips_with_3_passengers
 FROM 
-  green_taxi_data
+    green_taxi_data
 WHERE 
-  lpep_pickup_datetime >= '2019-01-01' AND 
-  lpep_pickup_datetime < '2019-01-02';
+    lpep_pickup_datetime >= '2019-01-01' AND 
+    lpep_pickup_datetime < '2019-01-02';
 ```
 
 *output*:
@@ -227,18 +168,21 @@ Note: it's not a typo, it's `tip` , not `trip`
 
 ```sql
 WITH astoria_trips AS
- (SELECT g."PULocationID",
-   g."DOLocationID",
-   g."tip_amount"
-  FROM green_taxi_data g
-  WHERE g."PULocationID" IN
-    (SELECT z."LocationID"
-     FROM zones z
-     WHERE z."Zone" = 'Astoria' ) )
+    (SELECT g."PULocationID",
+        g."DOLocationID",
+        g."tip_amount"
+        FROM green_taxi_data g
+        WHERE g."PULocationID" IN
+            (SELECT z."LocationID"
+            FROM zones z
+            WHERE z."Zone" = 'Astoria' ) )
 SELECT zones."Zone" AS dropoff_zone,
- MAX(astoria_trips."tip_amount") AS max_tip
-FROM astoria_trips
-JOIN zones ON astoria_trips."DOLocationID" = zones."LocationID"
+    MAX(astoria_trips."tip_amount") AS max_tip
+FROM 
+    astoria_trips
+JOIN 
+    zones 
+        ON astoria_trips."DOLocationID" = zones."LocationID"
 GROUP BY dropoff_zone
 ORDER BY max_tip DESC
 LIMIT 1;
