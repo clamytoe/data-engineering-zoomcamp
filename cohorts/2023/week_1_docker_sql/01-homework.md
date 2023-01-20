@@ -205,7 +205,7 @@ LIMIT 1;
 
 ## Submitting the solutions
 
-- Form for submitting: TBA
+- Form for submitting: [form](https://forms.gle/EjphSkR1b3nsdojv7)
 - You can submit your homework multiple times. In this case, only the last submission will be used.
 
 Deadline: 26 January (Thursday), 22:00 CET
