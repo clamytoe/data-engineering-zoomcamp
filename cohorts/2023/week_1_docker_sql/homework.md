@@ -29,7 +29,7 @@ How many python packages/modules are installed?
 - 3
 - 7
 
-# Prepare Postgres
+## Prepare Postgres
 
 Run Postgres and load data as shown in the videos
 We'll use the green taxi trips from January 2019:
