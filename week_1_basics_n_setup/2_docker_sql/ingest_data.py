@@ -18,33 +18,43 @@ def main(params):
     db = params.db
     table_name = params.table_name
     url = params.url
-    date_fields = ["tpep_pickup_datetime", "tpep_dropoff_datetime"]
 
-    engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
-
-    if url.endswith(".csv.gz"):
-        data_file_name = "output.csv.gz"
-        read_data = read_csv
-    elif url.endswith(".parquet"):
-        data_file_name = "output.parquet"
-        read_data = read_parquet
+    if params.test:
+        print("Parsed commandline flags:")
+        print(f"{      user=}")
+        print(f"{  password=}")
+        print(f"{      host=}")
+        print(f"{      port=}")
+        print(f"{        db=}")
+        print(f"{table_name=}")
     else:
-        data_file_name = "output.csv"
-        read_data = read_csv
+        date_fields = ["tpep_pickup_datetime", "tpep_dropoff_datetime"]
 
-    os.system(f"wget -c {url} -O {data_file_name}")
+        engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
 
-    if table_name == "zones":
-        read_zones(
-            data_file_name,
-            engine,
-        )
-    else:
-        try:
-            read_data(data_file_name, table_name, engine, date_fields)
-        except ValueError:
-            date_fields = ["lpep_pickup_datetime", "lpep_dropoff_datetime"]
-            read_data(data_file_name, table_name, engine, date_fields)
+        if url.endswith(".csv.gz"):
+            data_file_name = "output.csv.gz"
+            read_data = read_csv
+        elif url.endswith(".parquet"):
+            data_file_name = "output.parquet"
+            read_data = read_parquet
+        else:
+            data_file_name = "output.csv"
+            read_data = read_csv
+
+        os.system(f"wget -c {url} -O {data_file_name}")
+
+        if table_name == "zones":
+            read_zones(
+                data_file_name,
+                engine,
+            )
+        else:
+            try:
+                read_data(data_file_name, table_name, engine, date_fields)
+            except ValueError:
+                date_fields = ["lpep_pickup_datetime", "lpep_dropoff_datetime"]
+                read_data(data_file_name, table_name, engine, date_fields)
 
 
 def read_csv(data_file_name, table_name, engine, date_fields):
@@ -131,6 +141,7 @@ def read_zones(data_file_name, engine):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Ingest CSV data to Postgres")
 
+    parser.add_argument("--test", required=False, help="test the script")
     parser.add_argument("--user", required=True, help="user name for postgres")
     parser.add_argument("--password", required=True, help="password for postgres")
     parser.add_argument("--host", required=True, help="host for postgres")
