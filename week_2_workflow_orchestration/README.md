@@ -1,4 +1,4 @@
-## Week 2: Workflow Orchestration
+# Week 2: Workflow Orchestration
 
 > If you're looking for Airflow videos from the 2022 edition,
 > check the [2022 cohort folder](../cohorts/2022/week_2_data_ingestion/).
@@ -7,7 +7,7 @@ Python code from videos is linked [below](#code-repository).
 
 Also, if you find the commands too small to view in Kalise's videos, here's the [transcript with code for the second Prefect video](https://github.com/discdiver/prefect-zoomcamp/tree/main/flows/01_start) and the [fifth Prefect video](https://github.com/discdiver/prefect-zoomcamp/tree/main/flows/01_start).
 
-### Data Lake (GCS)
+## Data Lake (GCS)
 
 * What is a Data Lake
 * ELT vs. ETL
@@ -15,18 +15,16 @@ Also, if you find the commands too small to view in Kalise's videos, here's the 
 * [Video](https://www.youtube.com/watch?v=W3Zm6rjOq70&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 * [Slides](https://docs.google.com/presentation/d/1RkH-YhBz2apIjYZAxUz2Uks4Pt51-fVWVN9CcH9ckyY/edit?usp=sharing)
 
-
-### 1. Introduction to Workflow orchestration
+## 1. Introduction to Workflow orchestration
 
 * What is orchestration?
 * Workflow orchestrators vs. other types of orchestrators
 * Core features of a workflow orchestration tool
-* Different types of workflow orchestration tools that currently exist 
+* Different types of workflow orchestration tools that currently exist
 
 :movie_camera: [Video](https://www.youtube.com/watch?v=8oLs6pzHp68&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-
-### 2. Introduction to Prefect concepts
+## 2. Introduction to Prefect concepts
 
 * What is Prefect?
 * Installing Prefect
@@ -38,20 +36,19 @@ Also, if you find the commands too small to view in Kalise's videos, here's the 
 
 :movie_camera: [Video](https://www.youtube.com/watch?v=cdtN6dhp708&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-### 3. ETL with GCP & Prefect
+## 3. ETL with GCP & Prefect
 
-* Flow 1: Putting data to Google Cloud Storage 
+* Flow 1: Putting data to Google Cloud Storage
 
 :movie_camera: [Video](https://www.youtube.com/watch?v=W-rMz_2GwqQ&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-
-### 4. From Google Cloud Storage to Big Query
+## 4. From Google Cloud Storage to Big Query
 
 * Flow 2: From GCS to BigQuery
 
 :movie_camera: [Video](https://www.youtube.com/watch?v=Cx5jt-V5sgE&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-### 5. Parametrizing Flow & Deployments 
+## 5. Parametrizing Flow & Deployments
 
 * Parametrizing the script from your flow
 * Parameter validation with Pydantic
@@ -62,7 +59,7 @@ Also, if you find the commands too small to view in Kalise's videos, here's the 
 
 :movie_camera: [Video](https://www.youtube.com/watch?v=QrDxPjX10iw&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-### 6. Schedules & Docker Storage with Infrastructure
+## 6. Schedules & Docker Storage with Infrastructure
 
 * Scheduling a deployment
 * Flow code storage
@@ -70,8 +67,7 @@ Also, if you find the commands too small to view in Kalise's videos, here's the 
 
 :movie_camera: [Video](https://www.youtube.com/watch?v=psNSzqTsi-s&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-### 7. Prefect Cloud and Additional Resources 
-
+## 7. Prefect Cloud and Additional Resources
 
 * Using Prefect Cloud instead of local Prefect
 * Workspaces
@@ -84,11 +80,12 @@ Also, if you find the commands too small to view in Kalise's videos, here's the 
 * [Prefect Cloud](https://app.prefect.cloud/)
 * [Prefect Slack](https://prefect-community.slack.com)
 
-### Code repository
+## Code repository
 
 [Code from videos](https://github.com/discdiver/prefect-zoomcamp) (with a few minor enhancements)
 
-### Homework 
+## Homework
+
 Homework can be found [here](../cohorts/2023/week_2_workflow_orchestration/homework.md).
 
 ## Community notes
@@ -101,8 +98,7 @@ Did you take notes? You can share them here.
 * [Notes by Candace Williams](https://github.com/teacherc/de_zoomcamp_candace2023/blob/main/week_2/week2_notes.md)
 * Add your notes here (above this line)
 
-
-### 2022 notes 
+## 2022 notes
 
 Most of these notes are about Airflow, but you might find them useful.
 
