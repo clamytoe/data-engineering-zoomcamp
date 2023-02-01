@@ -351,7 +351,7 @@ yellow_tripdata_2021-01.csv.g 100%[=============================================
 10:49:33.880 | INFO    | Flow run 'unnatural-caribou' - Finished in state Completed('All states completed.')
 ```
 
-## Parameterization and Sublows
+## Parameterization and Subflows
 
 Let's add parameterization and a subflow:
 
@@ -461,7 +461,7 @@ python 03-ingest_data.py
 
 ## Orion
 
-We can see all of the flows that we have alrady started:
+Orion is a graphical interface that we can use to monitor our Prefect flows and tasks. With it we can see all of the flows that we have alrady started:
 
 ```bash
 prefect orion start
