@@ -110,6 +110,8 @@ if __name__ == "__main__":
     ingest_data(user, password, host, port, db, table_name, csv_url)
 ```
 
+Now execute the script:
+
 ```bash
 python ingest_data.py
 ...
@@ -133,8 +135,6 @@ inserted another chunk, took 6.254 second
 inserted another chunk, took 6.266 second
 inserted another chunk, took 6.194 second
 inserted another chunk, took 6.256 second
-/home/clamytoe/Projects/data-engineering-zoomcamp/week_2_workflow_orchestration/demo/flows/01_start/ingest_data.py:40: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
-  df = next(df_iter)
 inserted another chunk, took 6.192 second
 inserted another chunk, took 3.918 second
 Finished ingesting data into the postgres database
