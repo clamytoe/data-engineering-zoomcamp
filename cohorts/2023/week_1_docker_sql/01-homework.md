@@ -29,10 +29,10 @@ Options:
 ...
 ```
 
-- `--imageid string`
-- **`--iidfile string`**
-- `--idimage string`
-- `--idfile string`
+- [ ] `--imageid string`
+- [X] **`--iidfile string`**
+- [ ] `--idimage string`
+- [ ] `--idfile string`
 
 ## Question 2. Understanding docker first run
 
@@ -49,10 +49,10 @@ setuptools 58.1.0
 wheel      0.38.4
 ```
 
-- 1
-- 6
-- **3**
-- 7
+- [ ] 1
+- [ ] 6
+- [X] **3**
+- [ ] 7
 
 ## Prepare Postgres
 
@@ -94,10 +94,10 @@ WHERE
 +-------------+
 ```
 
-- 20689
-- **20530**
-- 17630
-- 21090
+- [ ] 20689
+- [X] **20530**
+- [ ] 17630
+- [ ] 21090
 
 ## Question 4. Largest trip for each day
 
@@ -124,10 +124,10 @@ LIMIT 1;
 +------------+----------+
 ```
 
-- 2019-01-18
-- 2019-01-28
-- **2019-01-15**
-- 2019-01-10
+- [ ] 2019-01-18
+- [ ] 2019-01-28
+- [X] **2019-01-15**
+- [ ] 2019-01-10
 
 ## Question 5. The number of passengers
 
@@ -154,10 +154,10 @@ WHERE
 +-------------------------+-------------------------+
 ```
 
-- 2: 1282 ; 3: 266
-- 2: 1532 ; 3: 126
-- **2: 1282 ; 3: 254**
-- 2: 1282 ; 3: 274
+- [ ] 2: 1282 ; 3: 266
+- [ ] 2: 1532 ; 3: 126
+- [X] **2: 1282 ; 3: 254**
+- [ ] 2: 1282 ; 3: 274
 
 ## Question 6. Largest tip
 
@@ -198,10 +198,10 @@ LIMIT 1;
 +-------------------------------+---------+
 ```
 
-- Central Park
-- Jamaica
-- South Ozone Park
-- **Long Island City/Queens Plaza**
+- [ ] Central Park
+- [ ] Jamaica
+- [ ] South Ozone Park
+- [X] **Long Island City/Queens Plaza**
 
 ## Submitting the solutions
 
