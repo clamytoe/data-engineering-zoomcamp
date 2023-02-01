@@ -246,6 +246,86 @@ You can go back to pgAdmin to confirm that the data was indeed ingested.
 Now we are going to add an ETL pipeline to the script so that we can clean up some of the data. The following changes were made:
 
 ```python
+#!/usr/bin/env python
+# coding: utf-8
+# import argparse
+import os
+from datetime import timedelta
+
+import pandas as pd
+from prefect import flow, task
+from prefect.tasks import task_input_hash
+from sqlalchemy import create_engine
+
+
+@task(
+    log_prints=True,
+    retries=3,
+    cache_key_fn=task_input_hash,
+    cache_expiration=timedelta(days=1),
+)
+def extract_data(url):
+    # the backup files are gzipped, and it's important to keep the correct extension
+    # for pandas to be able to open the file
+    if url.endswith(".csv.gz"):
+        csv_name = "yellow_tripdata_2021-01.csv.gz"
+    else:
+        csv_name = "output.csv"
+
+    os.system(f"wget {url} -O {csv_name}")
+
+    df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000)
+
+    df = next(df_iter)
+
+    df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+    df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+
+    return df
+
+
+@task(log_prints=True)
+def transform_data(df):
+    print(f"pre: missing passenger count: {df['passenger_count'].isin([0]).sum()}")
+    df = df[df["passenger_count"] != 0]
+    print(f"post: missing passenger count: {df['passenger_count'].isin([0]).sum()}")
+
+    return df
+
+
+@task(log_prints=True, retries=3)
+def ingest_data(user, password, host, port, db, table_name, df):
+
+    postgres_url = f"postgresql://{user}:{password}@{host}:{port}/{db}"
+    engine = create_engine(postgres_url)
+
+    df.head(n=0).to_sql(name=table_name, con=engine, if_exists="replace")
+
+    df.to_sql(name=table_name, con=engine, if_exists="append")
+
+
+@flow(name="Ingest Flow")
+def main_flow():
+    user = "root"
+    password = "root"
+    host = "localhost"
+    port = "5432"
+    db = "ny_taxi"
+    table_name = "yellow_taxi_trips"
+    csv_url = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+
+    raw_data = extract_data(csv_url)
+    data = transform_data(raw_data)
+    ingest_data(user, password, host, port, db, table_name, data)
+
+
+if __name__ == "__main__":
+    main_flow()
+```
+
+Now run it:
+
+```bash
 python 02-ingest_data.py
 10:49:25.668 | INFO    | prefect.engine - Created flow run 'unnatural-caribou' for flow 'Ingest Flow'
 10:49:25.844 | INFO    | Flow run 'unnatural-caribou' - Created task run 'extract_data-976b417c-0' for task 'extract_data'
@@ -273,7 +353,7 @@ yellow_tripdata_2021-01.csv.g 100%[=============================================
 
 ## Parameterization and Sublows
 
-Let's add these:
+Let's add parameterization and a subflow:
 
 ```python
 #!/usr/bin/env python
@@ -381,7 +461,7 @@ python 03-ingest_data.py
 
 ## Orion
 
-We can see all of the flow that we have alrady started:
+We can see all of the flows that we have alrady started:
 
 ```bash
 prefect orion start
@@ -408,7 +488,11 @@ Set 'PREFECT_API_URL' to 'http://127.0.0.1:4200/api'.
 Updated profile 'default'.
 ```
 
+**Main Screen:**
+
 ![orion](/images/notes/orion.png)
+
+**Flow Details:**
 
 ![flow](/images/notes/flow.png)
 
@@ -416,7 +500,7 @@ Updated profile 'default'.
 
 Blocks are permanent storage configurations.
 
-There are many installable colections. You can browser them all here: [Collections Catalog](https://docs.prefect.io/collections/catalog/)
+There are many installable collections. You can browse them all here: [Collections Catalog](https://docs.prefect.io/collections/catalog/)
 
 ![collections](/images/notes/collections.png)
 
