@@ -1,6 +1,6 @@
 # DE Zoomcamp 2023
 
-## Workflow Orchestraion
+## Workflow Orchestration
 
 ![workflow](/images/notes/workflow.png)
 
@@ -12,7 +12,7 @@
 - Caching
 - Integration with external systems (API's, databases)
 - Ad-hoc runs
-- Parameterozation
+- Parameterization
 - Alert you when something fails
 
 ## Different type of workflow tools
@@ -29,7 +29,7 @@
 - Analytics Engine
 - Orchestration
 - Observability
-- MPOps End-to-End
+- MLOps End-to-End
 - Data Centric AI/ML
 - Discovery & Governance
 

@@ -1,16 +1,13 @@
 from pathlib import Path
+
 import pandas as pd
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
-from random import randint
 
 
 @task(retries=3)
 def fetch(dataset_url: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame"""
-    # if randint(0, 1) > 0:
-    #     raise Exception
-
     df = pd.read_csv(dataset_url)
     return df
 
@@ -29,7 +26,9 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
 @task()
 def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
     """Write DataFrame out locally as parquet file"""
-    path = Path(f"data/{color}/{dataset_file}.parquet")
+    local_dir = Path("data", color)
+    local_dir.mkdir(parents=True, exist_ok=True)
+    path = local_dir / f"{dataset_file}.parquet"
     df.to_parquet(path, compression="gzip")
     return path
 
@@ -37,8 +36,8 @@ def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
 @task()
 def write_gcs(path: Path) -> None:
     """Upload local parquet file to GCS"""
-    gcs_block = GcsBucket.load("zoom-gcs")
-    gcs_block.upload_from_path(from_path=path, to_path=path)
+    gcs_block = GcsBucket.load("dtc-de-gcs")
+    gcs_block.upload_from_path(from_path=path, to_path=path)  # type: ignore
     return
 
 
