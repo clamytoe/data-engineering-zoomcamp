@@ -702,4 +702,69 @@ Agent started! Looking for work from queue(s): default...
 
 You can set up notifications so that you can be alerted to different events. Just navigate over to the **Notifications* page and click on **Create Notification +**.
 
-![notifications]
+![notifications](/images/notes/notifications.png)
+
+#### Schedule
+
+If you drill down into your **Deployments**, you will see that you can add a schedule for when you want your deployment to run. Just click on the **Add** button.
+
+You will have the options of:
+
+* Interval
+* Cron
+* Recurring Rule (RRule)
+
+![schedule](/images/notes/schedule.png)
+
+> **NOTE:** Making changes to **RRule** from the GUI is not supported.
+
+The scheduld job will continue to run as long as **Orion** is up and running and the Deployment has an **Agent** running. You also have the option of toggling it off.
+
+![deployment](/images/notes/deployments.png)
+
+The schedules can also be specified from the command line:
+
+```bash
+prefect deployment build parameterized_flow.py:etl_parent_flow -n etl2 --cron "0 0 * * *" -a
+Found flow 'etl-parent-flow'
+Deployment YAML created at
+'/home/clamytoe/Projects/data-engineering-zoomcamp/week_2_workflow_orchestration/demo/flows/03_deployments/etl_parent_fl
+ow-deployment.yaml'.
+Deployment storage None does not have upload capabilities; no files uploaded.  Pass --skip-upload to suppress this
+warning.
+Deployment 'etl-parent-flow/etl2' successfully created with id '9c00b9e4-4238-4ba6-9f7e-f151e5dfa1a1'.
+
+To execute flow runs from this deployment, start an agent that pulls work from the 'default' work queue:
+$ prefect agent start -q 'default'
+```
+
+![cron-deployment](/images/notes/cron-deployment.png)
+
+### Help
+
+If you ever need to figure out how to do anything, you can just append `--help` to any command to get further details:
+
+```bash
+prefect deployment --help
+Usage: prefect deployment [OPTIONS] COMMAND [ARGS]...
+
+  Commands for working with deployments.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  apply            Create or update a deployment from a YAML file.
+  build            Generate a deployment YAML from...
+  delete           Delete a deployment.
+  inspect          View details about a deployment.
+  ls               View all deployments or deployments for specific flows.
+  pause-schedule   Pause schedule of a given deployment.
+  resume-schedule  Resume schedule of a given deployment.
+  run              Create a flow run for the given flow and deployment.
+  set-schedule     Set schedule for a given deployment.
+  ```
+
+As you can see, you can set the schedule after a deployment has been created as well.
+
+## Running flows from Docker containers
