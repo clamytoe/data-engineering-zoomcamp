@@ -768,3 +768,99 @@ Commands:
 As you can see, you can set the schedule after a deployment has been created as well.
 
 ## Running flows from Docker containers
+
+### Dockerfile
+
+```docker
+FROM prefecthq/prefect:2.7.11-python3.10
+
+COPY docker-requirements.txt .
+
+RUN pip install -r docker-requirements.txt --trusted-host pypi.python.org --no-cache-dir
+
+COPY flows /opt/prefect/flows
+```
+
+### Docker requirements
+
+```txt
+pandas==1.5.2
+prefect-gcp[cloud_storage]==0.2.5
+protobuf==3.19.6
+pyarrow==10.0.1
+```
+
+### Create image
+
+```bash
+docker image build -t clamytoe/prefect:zoom .
+```
+
+### Push to Docker Hub
+
+```bash
+docker image push clamytoe/prefect:zoom
+The push refers to repository [docker.io/clamytoe/prefect]
+88d5442d13fc: Pushed
+337834026821: Pushed
+2dde53d41073: Pushed
+a9532ed06bb8: Mounted from prefecthq/prefect
+f68d440d47cb: Mounted from prefecthq/prefect
+7d3e0c5b71ce: Mounted from prefecthq/prefect
+0dc8e88603a8: Mounted from prefecthq/prefect
+00e4d4baf2d2: Mounted from prefecthq/prefect
+814b20e3d83d: Mounted from prefecthq/prefect
+48e393a194bb: Mounted from prefecthq/prefect
+eb7af1182de0: Mounted from prefecthq/prefect
+2f28f5507e90: Mounted from prefecthq/prefect
+3633b49d846e: Mounted from prefecthq/prefect
+7901644b3c3e: Mounted from prefecthq/prefect
+03bf8d6415c8: Mounted from prefecthq/prefect
+9be38f5f1203: Mounted from prefecthq/prefect
+67a4178b7d47: Mounted from prefecthq/prefect
+zoom: digest: sha256:ada74d04db5bedaf8ae972045105b4f8a60e2f6db40377b5eab5ced4a6653cae size: 3891
+```
+
+![docker-hub](/images/notes/docker-hub.png)
+
+### Docker block
+
+Open up the Orion dashboard and navigate to the Blocks section and create a new Docker Container block:
+
+![docker-container](/images/notes/docker-container.png)
+
+Fill in the following fields:
+
+* Block name: dtc-de-zoom
+* Image: clamytoe/prefect:zoom
+* ImagePulPolicy: ALWAYS
+* Auto Remove: True
+
+Then click on the **CREATE** button.
+
+![dtc-de-zoom](/images/notes/dtc-de-zoom.png)
+
+Copy the code block to use in your deployment:
+
+```bash
+from prefect.infrastructure.docker import DockerContainer
+
+docker_container_block = DockerContainer.load("dtc-de-zoom")
+```
+
+### Through Python
+
+You can also do the same through Python:
+
+```python
+from prefect.infrastructure.docker import DockerContainer
+
+# alternative to creating DockerContainer block in the UI
+docker_block = DockerContainer(
+    image="clamytoe/prefect:zoom",
+    image_pull_policy="ALWAYS",
+    auto_remove=True,
+)
+
+docker_block.save("dtc-de-zoom", overwrite=True)
+```
