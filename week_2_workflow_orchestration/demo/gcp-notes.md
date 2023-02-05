@@ -23,7 +23,7 @@ View the API reference documentation at http://127.0.0.1:4200/docs
 Check out the dashboard at http://127.0.0.1:4200
 ```
 
-### Googe loud Storage (GCS)
+### Googe Cloud Storage (GCS)
 
 Navigate to your Google clound dashboard and make sure that the project that you created in the last lesson is active. Then click on the button to create a new Storage Bucket.
 
@@ -188,7 +188,8 @@ if __name__ == "__main__":
 
 Time to run the script:
 
-```python etl_web_to_gcs.py
+```python
+etl_web_to_gcs.py
 13:16:15.504 | INFO    | prefect.engine - Created flow run 'diamond-chupacabra' for flow 'etl-web-to-gcs'
 13:16:15.668 | INFO    | Flow run 'diamond-chupacabra' - Created task run 'fetch-b4598a4a-0' for task 'fetch'
 13:16:15.669 | INFO    | Flow run 'diamond-chupacabra' - Executing 'fetch-b4598a4a-0' immediately...
@@ -633,11 +634,10 @@ There are two steps required:
 
 Further details can be found in the documentation: [deployment build options](https://docs.prefect.io/concepts/deployments/#deployment-build-options)
 
-The create the deployment definition file, run the following command:
+To create the deployment definition file, run the following command:
 
 ```bash
-prefect deployment build ./parameterized_flow.py:etl_parent_flow -n "Parame
-terized ETL"
+prefect deployment build ./parameterized_flow.py:etl_parent_flow -n "Parameterized ETL"
 Found flow 'etl-parent-flow'
 Default '.prefectignore' file written to
 /home/clamytoe/Projects/data-engineering-zoomcamp/week_2_workflow_orchestration/demo/flows/03_deployments/.prefectig
@@ -718,7 +718,7 @@ You will have the options of:
 
 > **NOTE:** Making changes to **RRule** from the GUI is not supported.
 
-The scheduld job will continue to run as long as **Orion** is up and running and the Deployment has an **Agent** running. You also have the option of toggling it off.
+The scheduled job will continue to run as long as **Orion** is up and running and the Deployment has an **Agent** running. You also have the option of toggling it off.
 
 ![deployment](/images/notes/deployments.png)
 
@@ -864,3 +864,116 @@ docker_block = DockerContainer(
 
 docker_block.save("dtc-de-zoom", overwrite=True)
 ```
+
+Docker image can also be deployed through Python:
+
+```python
+from parameterized_flow import etl_parent_flow
+from prefect.deployments import Deployment
+from prefect.infrastructure.docker import DockerContainer
+
+docker_block = DockerContainer.load("dtc-de-zoom")
+
+docker_dep = Deployment.build_from_flow(
+    flow=etl_parent_flow,
+    name="docker-flow",
+    infrastructure=docker_block,
+)
+
+
+if __name__ == "__main__":
+    docker_dep.apply()
+```
+
+### Deploy the container
+
+```bash
+python flows/03_deployments/docker_deploy.py
+```
+
+![docker-flow-dep](/images/notes/docker-flow-dep.png)
+
+### Prefect profile
+
+In order to see which profile you're currently using, use the following command:
+
+```bash
+prefect profile ls
+┏━━━━━━━━━━━━━━━━━━━━━┓
+┃ Available Profiles: ┃
+┡━━━━━━━━━━━━━━━━━━━━━┩
+│           * default │
+└─────────────────────┘
+   * active profile
+```
+
+To change profiles:
+
+```bash
+prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"
+Set 'PREFECT_API_URL' to 'http://127.0.0.1:4200/api'.
+Updated profile 'default'.
+```
+
+To reset the profile:
+
+```bash
+prefect config unset PREFECT_API_URL
+```
+
+### Start the agent
+
+```bash
+prefect agent start -q 'default'
+Starting v2.7.10 agent connected to http://127.0.0.1:4200/api...
+
+  ___ ___ ___ ___ ___ ___ _____     _   ___ ___ _  _ _____
+ | _ \ _ \ __| __| __/ __|_   _|   /_\ / __| __| \| |_   _|
+ |  _/   / _|| _|| _| (__  | |    / _ \ (_ | _|| .` | | |
+ |_| |_|_\___|_| |___\___| |_|   /_/ \_\___|___|_|\_| |_|
+
+
+Agent started! Looking for work from queue(s): default...
+```
+
+Now launch the deployment:
+
+```bash
+prefect deployment run etl-parent-flow/docker-flow -p "months=[1,2]"
+Creating flow run for deployment 'etl-parent-flow/docker-flow'...
+Created flow run 'daffy-piculet'.
+└── UUID: 5181d388-c2f7-46e1-b222-3163e499cb47
+└── Parameters: {'months': [1, 2]}
+└── Scheduled start time: 2023-02-04 22:44:27 CST (now)
+└── URL: http://127.0.0.1:4200/flow-runs/flow-run/5181d388-c2f7-46e1-b222-3163e499cb47
+```
+
+## Docker Deployment Error
+
+My Docker deployment kept crashing. From the agent log, it appeared that it could not connect to localhost:4200, but internally in Orion, I was able to track down the error to the fact that it could not access the cache file on my local filesystem. I removed the caching code from the python script and all started to work!
+
+```python
+
+# from prefect.tasks import task_input_hash
+from prefect_gcp.cloud_storage import GcsBucket
+
+
+# @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+@task(retries=3)
+def fetch(dataset_url: str) -> pd.DataFrame:
+    """Read taxi data from web into pandas DataFrame"""
+    df = pd.read_csv(dataset_url)
+    return df
+```
+
+## Additional Resources
+
+* [docs.prefect.io](https://docs.prefect.io/)
+* [Flows](https://docs.prefect.io/concepts/flows/)
+* [Tasks](https://docs.prefect.io/concepts/tasks/)
+* [Infrastructure](https://docs.prefect.io/concepts/infrastructure/)
+* [Task Runners](https://docs.prefect.io/concepts/task-runners/)
+* [Deployments](https://docs.prefect.io/concepts/deployments/)
+* [Agents & Work Queues](https://docs.prefect.io/concepts/work-queues/)
+* [Storage](https://docs.prefect.io/concepts/storage/)
+* [Blocks](https://docs.prefect.io/concepts/blocks/)
