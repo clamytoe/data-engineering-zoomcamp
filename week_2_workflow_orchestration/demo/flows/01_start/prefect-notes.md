@@ -5,8 +5,8 @@
 The first thing to do is to create a virtual environment:
 
 ```bash
-conda create -n zoomcamp python=3.9
-conda activate zoomcamp
+conda create -n de python=3.10
+conda activate de
 pip install -r requirements.txt
 ```
 
@@ -16,15 +16,12 @@ Once the environment has been created, you can confirm that it created successfu
 prefect version
 Version:             2.7.10
 API version:         0.8.4
-Python version:      3.10.8
+Python version:      3.10.9
 Git commit:          f269d49b
 Built:               Thu, Jan 26, 2023 3:51 PM
 OS/Arch:             linux/x86_64
 Profile:             default
-Server type:         ephemeral
-Server:
-  Database:          sqlite
-  SQLite version:    3.40.0
+Server type:         hosted
 ```
 
 ## Start the Postgresql and pgAdmin containers
