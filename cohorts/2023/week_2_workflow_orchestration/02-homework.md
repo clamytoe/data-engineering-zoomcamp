@@ -240,15 +240,97 @@ Run your deployment to append this data to your BiqQuery table. How many rows di
 
 Using the `web_to_gcs` script from the videos as a guide, you want to store your flow code in a GitHub repository for collaboration with your team. Prefect can look in the GitHub repo to find your flow code and read it. Create a GitHub storage block from the UI or in Python code and use that in your Deployment instead of storing your flow code locally or baking your flow code into a Docker image.
 
+![gh-block](gh-block.png)
+
 Note that you will have to push your code to GitHub, Prefect will not push it for you.
 
 Run your deployment in a local subprocess (the default if you don’t specify an infrastructure). Use the Green taxi data for the month of November 2020.
+
+```bash
+prefect deployment build week_2_workflow_orchestration/demo/flows/02_gcp/gh_flows/etl_web_to_gh_hw.py:etl_web_to_gcs --name git_flow -sb github/clamytoe-dez -a
+Found flow 'etl-web-to-gcs'
+Default '.prefectignore' file written to /home/clamytoe/Projects/data-engineering-zoomcamp/.prefectignore
+Deployment YAML created at '/home/clamytoe/Projects/data-engineering-zoomcamp/etl_web_to_gcs-deployment.yaml'.
+Deployment storage GitHub(repository='https://github.com/clamytoe/data-engineering-zoomcamp', reference=None,
+access_token=None, include_git_objects=True) does not have upload capabilities; no files uploaded.  Pass --skip-upload
+to suppress this warning.
+Deployment 'etl-web-to-gcs/git_flow' successfully created with id 'f295ebd9-efef-421f-8b12-57e846bd0491'.
+
+To execute flow runs from this deployment, start an agent that pulls work from the 'default' work queue:
+$ prefect agent start -q 'default'
+```
+
+![gh-dep](gh-dep.png)
+
+```bash
+prefect agent start -q 'default'
+Starting v2.7.10 agent connected to http://127.0.0.1:4200/api...
+
+  ___ ___ ___ ___ ___ ___ _____     _   ___ ___ _  _ _____
+ | _ \ _ \ __| __| __/ __|_   _|   /_\ / __| __| \| |_   _|
+ |  _/   / _|| _|| _| (__  | |    / _ \ (_ | _|| .` | | |
+ |_| |_|_\___|_| |___\___| |_|   /_/ \_\___|___|_|\_| |_|
+
+
+Agent started! Looking for work from queue(s): default...
+18:56:49.692 | INFO    | prefect.agent - Submitting flow run '523bd006-9e89-407b-9864-c5e228072766'
+18:56:49.773 | INFO    | prefect.infrastructure.process - Opening process 'denim-ferret'...
+18:56:49.796 | INFO    | prefect.agent - Completed submission of flow run '523bd006-9e89-407b-9864-c5e228072766'
+/home/clamytoe/miniconda3/envs/de/lib/python3.10/runpy.py:126: RuntimeWarning: 'prefect.engine' found in sys.modules after import of package 'prefect', but prior to execution of 'prefect.engine'; this may result in unpredictable behaviour
+  warn(RuntimeWarning(msg))
+18:56:51.810 | INFO    | Flow run 'denim-ferret' - Downloading flow code from storage at ''
+18:56:53.502 | INFO    | Flow run 'denim-ferret' - Created task run 'fetch-ba00c645-0' for task 'fetch'
+18:56:53.503 | INFO    | Flow run 'denim-ferret' - Executing 'fetch-ba00c645-0' immediately...
+/tmp/tmpo1lse_3iprefect/week_2_workflow_orchestration/demo/flows/02_gcp/gh_flows/etl_web_to_gh_hw.py:11: DtypeWarning: Columns (3) have mixed types. Specify dtype option on import or set low_memory=False.
+  df = pd.read_csv(dataset_url)
+18:56:54.484 | INFO    | Task run 'fetch-ba00c645-0' - Finished in state Completed()
+18:56:54.519 | INFO    | Flow run 'denim-ferret' - Created task run 'clean-2c6af9f6-0' for task 'clean'
+18:56:54.519 | INFO    | Flow run 'denim-ferret' - Executing 'clean-2c6af9f6-0' immediately...
+18:56:54.623 | INFO    | Task run 'clean-2c6af9f6-0' -    VendorID lpep_pickup_datetime  ... trip_type congestion_surcharge
+0       2.0  2020-11-01 00:08:23  ...       1.0                 2.75
+1       2.0  2020-11-01 00:23:32  ...       1.0                 0.00
+
+[2 rows x 20 columns]
+18:56:54.624 | INFO    | Task run 'clean-2c6af9f6-0' - columns: VendorID                        float64
+lpep_pickup_datetime     datetime64[ns]
+lpep_dropoff_datetime    datetime64[ns]
+store_and_fwd_flag               object
+RatecodeID                      float64
+PULocationID                      int64
+DOLocationID                      int64
+passenger_count                 float64
+trip_distance                   float64
+fare_amount                     float64
+extra                           float64
+mta_tax                         float64
+tip_amount                      float64
+tolls_amount                    float64
+ehail_fee                       float64
+improvement_surcharge           float64
+total_amount                    float64
+payment_type                    float64
+trip_type                       float64
+congestion_surcharge            float64
+dtype: object
+18:56:54.625 | INFO    | Task run 'clean-2c6af9f6-0' - rows: 88605
+18:56:54.657 | INFO    | Task run 'clean-2c6af9f6-0' - Finished in state Completed()
+18:56:54.701 | INFO    | Flow run 'denim-ferret' - Created task run 'write_local-09e9d2b8-0' for task 'write_local'
+18:56:54.701 | INFO    | Flow run 'denim-ferret' - Executing 'write_local-09e9d2b8-0' immediately...
+18:56:55.004 | INFO    | Task run 'write_local-09e9d2b8-0' - Finished in state Completed()
+18:56:55.037 | INFO    | Flow run 'denim-ferret' - Created task run 'write_gcs-67f8f48e-0' for task 'write_gcs'
+18:56:55.038 | INFO    | Flow run 'denim-ferret' - Executing 'write_gcs-67f8f48e-0' immediately...
+18:56:55.149 | INFO    | Task run 'write_gcs-67f8f48e-0' - Getting bucket 'prefect-dtc-de-course'.
+18:56:56.078 | INFO    | Task run 'write_gcs-67f8f48e-0' - Uploading from PosixPath('data/green/green_tripdata_2020-11.parquet') to the bucket 'prefect-dtc-de-course' path 'data/green/green_tripdata_2020-11.parquet'.
+18:56:56.550 | INFO    | Task run 'write_gcs-67f8f48e-0' - Finished in state Completed()
+18:56:56.588 | INFO    | Flow run 'denim-ferret' - Finished in state Completed('All states completed.')
+18:56:56.985 | INFO    | prefect.infrastructure.process - Process 'denim-ferret' exited cleanly.
+```
 
 How many rows were processed by the script?
 
 * [ ] 88,019
 * [ ] 192,297
-* [ ] 88,605
+* [X] **88,605**
 * [ ] 190,225
 
 ## Question 5. Email or Slack notifications
