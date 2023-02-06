@@ -341,7 +341,9 @@ The hosted Prefect Cloud lets you avoid running your own server and has Automati
 
 Create a free forever Prefect Cloud account at app.prefect.cloud and connect your workspace to it following the steps in the UI when you sign up.
 
-Set up an Automation that will send yourself an email when a flow run completes. Run the deployment used in Q4 for the Green taxi data for April 2019. Check your email to see the notification.
+Set up an Automation that will send yourself an email when a flow run completes.
+
+Run the deployment used in Q4 for the Green taxi data for April 2019. Check your email to see the notification.
 
 Alternatively, use a Prefect Cloud Automation or a self-hosted Orion server Notification to get notifications in a Slack workspace via an incoming webhook.
 
@@ -349,24 +351,32 @@ Join my temporary Slack workspace with [this link](https://join.slack.com/t/temp
 
 In the Prefect Cloud UI create an [Automation](https://docs.prefect.io/ui/automations) or in the Prefect Orion UI create a [Notification](https://docs.prefect.io/ui/notifications/) to send a Slack message when a flow run enters a Completed state. Here is the Webhook URL to use: <https://hooks.slack.com/services/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>
 
+![slack-notification](slack-notification.png)
+
 Test the functionality.
 
+![bot-test](bot-test.png)
+
 Alternatively, you can grab the webhook URL from your own Slack workspace and Slack App that you create.
+
+![mohhsbot](mohhsbot.png)
 
 How many rows were processed by the script?
 
 * [ ] `125,268`
 * [ ] `377,922`
 * [ ] `728,390`
-* [ ] `514,392`
+* [X] **`514,392`**
 
 ## Question 6. Secrets
 
 Prefect Secret blocks provide secure, encrypted storage in the database and obfuscation in the UI. Create a secret block in the UI that stores a fake 10-digit password to connect to a third-party service. Once you’ve created your block in the UI, how many characters are shown as asterisks (*) on the next page of the UI?
 
+![secretos](secretos.png)
+
 * [ ] 5
 * [ ] 6
-* [ ] 8
+* [X] **8**
 * [ ] 10
 
 ## Submitting the solutions
