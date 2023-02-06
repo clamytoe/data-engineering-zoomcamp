@@ -1,7 +1,8 @@
 from pathlib import Path
 
 import pandas as pd
-from prefect import flow, task
+from prefect import Flow, flow, task
+from prefect.filesystems import GitHub
 from prefect_gcp.cloud_storage import GcsBucket
 
 
@@ -29,7 +30,7 @@ def write_local(df: pd.DataFrame, color: str, dataset_file: str) -> Path:
     local_dir = Path("data", color)
     local_dir.mkdir(parents=True, exist_ok=True)
     path = local_dir / f"{dataset_file}.parquet"
-    df.to_parquet(path, compression="gzip")
+    df.to_parquet(path, compression="gzip")  # type: ignore
     return path
 
 
@@ -41,8 +42,7 @@ def write_gcs(path: Path) -> None:
     return
 
 
-@flow()
-def etl_web_to_gcs() -> None:
+with Flow("clamytoe-dez") as etl_web_to_gcs:  # type: ignore
     """The main ETL function"""
     color = "green"
     year = 2020
@@ -56,5 +56,7 @@ def etl_web_to_gcs() -> None:
     write_gcs(path)
 
 
-if __name__ == "__main__":
-    etl_web_to_gcs()
+flow.storage = GitHub(
+    repository="https://github.com/clamytoe/data-engineering-zoomcamp",
+    path="week_2_workflow_orchestration/demo/flows/02_gcp/gh_flow",  # type: ignore
+)
