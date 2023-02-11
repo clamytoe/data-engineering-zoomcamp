@@ -170,8 +170,35 @@ BigQuery utilizes a column-oriented structure.
 * <https://panoply.io/data-warehouse-guide/bigquery-architecture/>
 * <https://www.goldsborough.me/distributed-systems/2019/05/18/21-09-00-a_look_at_dremel/>
 
-### ML in BigQuery
+### Machine Learning in BigQuery
 
 * Target audience Data analysts, managers
 * No need for Python or Java knowledge
 * No need to export data into a different system
+
+#### ML in BigQuery Pricing
+
+* Free
+  * 10 GB per month of data storage
+  * 1 TB per month of queries processed
+  * ML Create model step: First 10 GB per month is free
+
+![ml-pricing](images/ml-pricing.png)
+
+![ml-bq](images/ml-bq.png)
+
+![ml-algos](images/ml-algos.png)
+
+### Feature preprocessing overview
+
+Feature preprocessing is one of the most important steps in developing a machine learning model. It consists of the creation of features as well as the cleaning of the data. Sometimes, the creation of features is also referred as "feature engineering".
+
+### Feature preprocessing offerings
+
+BigQuery ML supports two tupes of features preprocessing:
+
+* **Automatic preprocessing**. BigQuery ML performs automatic preprocessing during training. For more information, see Automatic feature preprocessing.
+
+* **Manual preprocessing**. BigQuery ML provides the `TRANSFORM` clause for you to define custome preprocessing using the manual preprocessing functions. You can also use these functions outside the `TRANSOFORM` clause.
+
+Additionally, you can use the `ML.FEATURE_INFO` function to retrieve the statistics of all input feature columns.
