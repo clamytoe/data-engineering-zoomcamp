@@ -1,9 +1,9 @@
 from pathlib import Path
-
-from prefect import flow, task
-from prefect_gcp.cloud_storage import GcsBucket
+from typing import Iterable
 
 from download_datasets import LOCAL_DIR, dataset_generator, fetch
+from prefect import flow, task
+from prefect_gcp.cloud_storage import GcsBucket
 
 
 @task(retries=3)
@@ -16,11 +16,9 @@ def write_gcs(path: Path) -> None:
 
 
 @flow()
-def etl_web_to_gcs() -> None:
+def etl_web_to_gcs(years: list[int], months: Iterable[int]) -> None:
     """The main ETL function"""
     LOCAL_DIR.mkdir(parents=True, exist_ok=True)
-    years = [2019]
-    months = range(1, 13)
 
     files = [fetch(file, True) for file in dataset_generator(years, months)]
     for file in files:
@@ -28,4 +26,6 @@ def etl_web_to_gcs() -> None:
 
 
 if __name__ == "__main__":
-    etl_web_to_gcs()
+    years = [2019]
+    months = range(1, 13)
+    etl_web_to_gcs(years, months)
