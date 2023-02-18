@@ -265,45 +265,51 @@ select
     cast(ratecodeid) as integer) as ratecodeid,
 ```
 
+##### Variables
+
+* Variables are useful for defining values that should be used across the project
+* With a macro, dbt allows us to provide data to models for compilation
+* To use a variable we use the {{ var('...) }} function
+* Variables can be defined in two ways:
+  * In the `dbt_project.yml` file
+  * On the command line
+
+*Variable whose value we can change via CLI*:
+
 ```sql
--- create external tables
-CREATE OR REPLACE EXTERNAL TABLE `dtc-de-course-374214.trips_data_all.ext_green_tripdata`
-OPTIONS (
-    format = "PARQUET",
-    uris = ["gs://dtc_data_lake_dtc-de-course-374214/dtc_ny_taxi_tripdata/green/*.parquet.snappy"]
-);
+-- dbt build --m <model.sql> --var 'is_test_run: false'
+{% if var('is_test_run', default=trie) %}
 
-CREATE OR REPLACE EXTERNAL TABLE `dtc-de-course-374214.trips_data_all.ext_yellow_tripdata`
-OPTIONS (
-    format = "PARQUET",
-    uris = ["gs://dtc_data_lake_dtc-de-course-374214/dtc_ny_taxi_tripdata/yellow/*.parquet.snappy"]
-);
+  limit 100
 
-CREATE OR REPLACE EXTERNAL TABLE `dtc-de-course-374214.trips_data_all.ext_fhv_tripdata`
-OPTIONS (
-    format = "PARQUET",
-    uris = ["gs://dtc_data_lake_dtc-de-course-374214/dtc_ny_taxi_tripdata/fhv/*.parquet.snappy"]
-);
+{% endif %}
+```
 
--- create native partitioned tables
-CREATE OR REPLACE TABLE `dtc-de-course-374214.trips_data_all.green_tripdata`
-PARTITION BY DATE(lpep_pickup_datetime)
-AS (
-    SELECT *
-    FROM `dtc-de-course-374214.trips_data_all.ext_green_tripdata`
-);
+*Global variable we define under project.yml*:
 
-CREATE OR REPLACE TABLE `dtc-de-course-374214.trips_data_all.yellow_tripdata`
-PARTITION BY DATE(tpep_pickup_datetime)
-AS (
-    SELECT *
-    FROM `dtc-de-course-374214.trips_data_all.ext_yellow_tripdata`
-);
+```yml
+vars:
+  payment_type_values: [1, 2, 3, 4, 5, 6]
+```
 
-CREATE OR REPLACE TABLE `dtc-de-course-374214.trips_data_all.fhv_tripdata`
-PARTITION BY DATE(pickup_datetime)
-AS (
-    SELECT *
-    FROM `dtc-de-course-374214.trips_data_all.ext_fhv_tripdata`
-);
+##### How To Use Seeds
+
+Seeds are used to add CSV files to our database. Just place the csv file in the seeds directory and run the following command:
+
+```sql
+dbt seed
+```
+
+Use the following command to refresh the table instead of adding to it:
+
+```sql
+dbt seed --full-refresh
+```
+
+#### To run all models
+
+In order to run all models that are associated with fact_trips, we use the following command:
+
+```sql
+dbt build --select +fact_trips
 ```
