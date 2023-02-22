@@ -313,3 +313,148 @@ In order to run all models that are associated with fact_trips, we use the follo
 ```sql
 dbt build --select +fact_trips
 ```
+
+## Testing and documenting dbt models
+
+### Tests
+
+* Assumptions that we make about our data
+* Tests in dbt are essentially a `select` sql query
+* These assumptions get compiled to sql that returns the amount of failing records
+* Test are defined on a column in the .yml file
+* dbt provides basic tests to check if the column values are:
+  * Unique
+  * Not null
+  * Accepted values
+  * A foreign key to another table
+* You can create your custom tests as queries
+
+### Documentation
+
+* dbt provides a way to generate documentation for your dbt project and render it as a website.
+* The documentation for your project includes:
+  * Information about your project
+    * Model code (both from .sql file and compiled)
+    * Model dependencies
+    * Sources
+    * Auto generated DAG from the ref and source macros
+    * Descriptions (from .yml file) and tests
+  * Information about your data warehouse (information_schema):
+    * Column names and data types
+    * Table stats like size and rows
+* dbt docs can also be hosted in dbt cloud
+
+#### To run tests
+
+```sql
+dbt test
+```
+
+#### Build the project
+
+Once all tests are passing the project can be built with the build command:
+
+```sql
+dbt build
+```
+
+### Deployment of a dbt project
+
+#### What is deployment?
+
+* Process of running the models we created in our development environment in a production environment
+* Develoment and later deployment allows us to continue building models and testing them without affecting our production environment
+* A deployment environment will normally have a different schema in our data warehouse and ideally a different user
+* A development - deployment workflow will be something like:
+  * Develop in a user branch
+  * Open a PR to merge into the main branch
+  * Run the new models in the production environment using the main branch
+  * Schedule the models
+
+#### Running a dbt project in production
+
+* dbt cloud includes a scheduler where to create jobs to run in production
+* A single job can run miltiple commands
+* Jobs can be triggered manually or on schedule
+* Each job will keep a log of the runs over time
+* Each run will have the logs for each command
+* A job could also generate documentation, that could be viewed under the run information
+* If dbt source freshness was run, the results can also be viewed at the end of a job
+
+#### What is Continuous INtegration (CI)
+
+* CI is the practice of regularly merge development branches into a central repository, after which automated builds and tests are run.
+* The goal is to reduce adding bugs to the production code and maintain a more stable project.
+* dbt allows us to enable CI on pull requests.
+* Enabled via webhooks from GitHub or GitLab.
+* When a PR is ready to be merged, a webhooks is received in dbt Cloud that will enqueu a new run of the specified job.
+* The run of the CI job will be against a temporary schema.
+* No PR will be able to be merged unless the run has been completed successfully.
+
+#### Production Environment
+
+* On dbt, create a new environment `Production`
+* Create a New Job
+*
+
+### Deployment of a dbt project locally
+
+* Process of running the models we created in our development environment in a production environment
+* Development and later deployment allows us to continue building models and testing them without affecting our production environment
+* A deployment environment will normally have a different schema in our data warehouse and ideally a different user
+* A development - deployment workflow will be something like:
+  * Develop in a user branch
+  * Open a PR to merge into the main branch
+  * Merge the branch to the main branch
+  * Run the new models in the production environment using the main branch
+  * Schedule the models
+
+#### Modify Profiles yaml file
+
+You will to define the production environment:
+
+```yaml
+taxi_rides_ny_bq:
+  target: dev
+  outputs:
+    dev:
+      dataset: dtc_ny_taxi_tripdata
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /home/clamytoe/.ssh/dtc-de-course-374214-6cf927694a1d.json
+      location: US
+      method: service-account
+      priority: interactive
+      project: dtc-de-course-374214
+      threads: 4
+      type: bigquery
+    prod:
+      dataset: ny_taxi
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /home/clamytoe/.ssh/dtc-de-course-374214-6cf927694a1d.json
+      location: US
+      method: service-account
+      priority: interactive
+      project: dtc-de-course-374214
+      threads: 4
+      type: bigquery
+```
+
+Run with: `dbt build -t prod`
+
+### Visualizing the data with Google Data Studio
+
+* Navigate to [https://lookerstudio.google.com/](https://lookerstudio.google.com/)
+* Create a Data Source
+* Select BigQuery
+* Select your Project
+* Select your Dataset
+* Select your Table
+* Connect
+* Change the Default Aggregation for categorical columns from Sum to None
+* Create Report
+
+### Use Metabase as an alternative
+
+Launch the docker image: `docker run -d -p 3000:3000 --name metabase metabase/metabase`
