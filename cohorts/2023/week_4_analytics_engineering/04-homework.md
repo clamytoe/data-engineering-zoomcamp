@@ -72,8 +72,8 @@ Run it via the CLI without limits (is_test_run: false) and filter records with p
 ![q4](images/q4.png)
 
 * [ ] 12998722
-* [ ] 22998722
-* [X] **32998722**
+* [X] **22998722**
+* [ ] 32998722
 * [ ] 42998722
 
 ## Question 5
