@@ -144,7 +144,7 @@ sources:
 * Benefits of version controlling
 * Equivalent to a copy command
 * Recommended for data that doesn't change frequently
-* Runs with `dbt see -s file_name`
+* Runs with `dbt seed -s file_name`
 
 ```sql
 select
