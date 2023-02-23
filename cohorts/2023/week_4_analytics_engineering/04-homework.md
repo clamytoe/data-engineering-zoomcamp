@@ -40,6 +40,8 @@ You should find the views and models for querying in your DWH.
 
 You will need to complete "Visualising the data" videos, either using [google data studio](https://www.youtube.com/watch?v=39nLTs74A3E) or [metabase](https://www.youtube.com/watch?v=BnLkrA7a6gM).
 
+![q2](images/q2.png)
+
 * [X] **89.9/10.1**
 * [ ] 94/6
 * [ ] 76.3/23.7
