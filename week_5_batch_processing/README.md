@@ -1,13 +1,12 @@
-## Week 5: Batch Processing
+# Week 5: Batch Processing
 
-### 5.1 Introduction
+## 5.1 Introduction
 
 :movie_camera: [Introduction to Batch Processing](https://youtu.be/dcHe5Fl3MF8?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
 :movie_camera: [Introduction to Spark](https://youtu.be/FhaqbEOuQ8U?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-
-### 5.2 Installation
+## 5.2 Installation
 
 Follow [these intructions](setup/) to install Spark:
 
@@ -19,11 +18,10 @@ And follow [this](setup/pyspark.md) to run PySpark in Jupyter
 
 :movie_camera: [Installing Spark (Linux)](https://youtu.be/hqUbB9c8sKg?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
   
+## 5.3 Spark SQL and DataFrames
 
-### 5.3 Spark SQL and DataFrames
+:movie_camera: [First Look at Spark/PySpark](https://youtu.be/r_Sf6fCB40c?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-:movie_camera: [First Look at Spark/PySpark](https://youtu.be/r_Sf6fCB40c?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)   
-   
 :movie_camera: [Spark Dataframes](https://youtu.be/ti3aC1m3rE8?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
 :movie_camera: [(Optional) Preparing Yellow and Green Taxi Data](https://youtu.be/CI3P4tAtru4?list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
@@ -34,8 +32,7 @@ Script to prepare the Dataset [download_data.sh](code/download_data.sh)
 
 :movie_camera: [SQL with Spark](https://www.youtube.com/watch?v=uAlp2VuZZPY&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-
-### 5.4 Spark Internals
+## 5.4 Spark Internals
 
 :movie_camera: [Anatomy of a Spark Cluster](https://youtu.be/68CipcZt7ZA&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
@@ -43,17 +40,13 @@ Script to prepare the Dataset [download_data.sh](code/download_data.sh)
 
 :movie_camera: [Joins in Spark](https://youtu.be/lu7TrqAWuH4&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb)
 
-
-### 5.5 RDDs
+## 5.5 RDDs
 
 Coming soon
 
-
-### Homework
-
+## Homework
 
 * [Homework](../cohorts/2023/week_5_batch_processing/homework.md)
-
 
 ## Community notes
 
@@ -62,5 +55,5 @@ Did you take notes? You can share them here.
 * [Notes by Alvaro Navas](https://github.com/ziritrion/dataeng-zoomcamp/blob/main/notes/5_batch_processing.md)
 * [Sandy's DE Learning Blog](https://learningdataengineering540969211.wordpress.com/2022/02/24/week-5-de-zoomcamp-5-2-1-installing-spark-on-linux/)
 * [Notes by Alain Boisvert](https://github.com/boisalai/de-zoomcamp-2023/blob/main/week5.md)
-* [Alternative : Using docker-compose to launch spark by rafik](https://gist.github.com/rafik-rahoui/f98df941c4ccced9c46e9ccbdef63a03) 
+* [Alternative : Using docker-compose to launch spark by rafik](https://gist.github.com/rafik-rahoui/f98df941c4ccced9c46e9ccbdef63a03)
 * Add your notes here (above this line)
