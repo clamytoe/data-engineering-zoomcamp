@@ -63,7 +63,7 @@ def fetch(file: str, to_parquet: bool = False) -> Path:
     url = BASE_URL + file
     if not to_parquet:
         if not local_file.exists():
-            print(f"Doanloading: {local_file}")
+            print(f"Downloading: {local_file}")
             wget.download(url, out=str(local_file))
             print()
         else:
