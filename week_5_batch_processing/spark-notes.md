@@ -524,4 +524,4 @@ total 520K
 -rw-r--r-- 1 clamytoe clamytoe 518K Mar  2 17:33 part-00000-d1956e1a-24ef-4480-8244-8243f369a3a8-c000.snappy.parquet
 ```
 
-## Spark Cluster
+## Spark and Docker
