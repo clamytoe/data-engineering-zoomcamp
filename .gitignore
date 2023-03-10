@@ -160,3 +160,5 @@ serving_dir
 **/tmp/
 **/zones/
 srv/*
+
+**/confluent-data/
