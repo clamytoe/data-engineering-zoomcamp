@@ -45,7 +45,10 @@ Confluent cloud provides a free 30 days trial for, you can signup [here](https:/
 
 ## Pyspark - Structured Streaming
 
-Please follow the steps described under [pyspark-streaming-README](streams-example/pyspark/README.md)
+Please follow the steps described under [pyspark-streaming](python/streams-example/pyspark/README.md)
+
+* :movie_camera: 6.13 [DE Zoomcamp 6.13 - Kafka Streaming with Python](https://www.youtube.com/watch?v=Y76Ez_fIvtk)
+* :movie_camera: 6.14 [DE Zoomcamp 6.14 - Pyspark Structured Streaming](https://www.youtube.com/watch?v=5hRJ8-6Fpyk)
 
 ## Kafka Streams with JVM library
 
@@ -87,4 +90,5 @@ Deadline: 13 March 2023, 22:00 CET
 Did you take notes? You can share them here.
 
 * [Notes by Alvaro Navas](https://github.com/ziritrion/dataeng-zoomcamp/blob/main/notes/6_streaming.md )
+* [Marcos Torregrosa's blog (spanish)](https://www.n4gash.com/2023/data-engineering-zoomcamp-semana-6-stream-processing/)
 * Add your notes here (above this line)

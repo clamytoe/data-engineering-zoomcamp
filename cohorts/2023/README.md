@@ -67,16 +67,6 @@
 
 * [Homework](week_6_stream_processing/homework.md)
 
-Week 7, 8 & 9: Project
-ce hours](https://www.youtube.com/watch?v=ODYg_r72qaE&list=PL3MmuxUbc_hJjEePXIdE-LVUx_1ZZjYGW)
+[**Week 7, 8 & 9: Project**](project.md)
 
-[**Week 5: Batch processing**](week_5_batch_processing/)
-
-* [Homework](week_5_batch_processing/homework.md)
-* [Office hours](https://www.youtube.com/watch?v=5_69yL2PPYI&list=PL3MmuxUbc_hJjEePXIdE-LVUx_1ZZjYGW)
-
-[**Week 6: Stream Processing**](week_6_stream_processing)
-
-* [Homework](week_6_stream_processing/homework.md)
-
-Week 7, 8 & 9: Project
+More information [here](project.md)
