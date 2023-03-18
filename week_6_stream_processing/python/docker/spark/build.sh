@@ -1,6 +1,6 @@
 # -- Software Stack Version
 
-SPARK_VERSION="3.3.1"
+SPARK_VERSION="3.3.2"
 HADOOP_VERSION="3"
 JUPYTERLAB_VERSION="3.6.1"
 
