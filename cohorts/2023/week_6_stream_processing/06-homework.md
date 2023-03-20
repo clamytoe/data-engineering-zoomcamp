@@ -9,11 +9,9 @@ programming language (Python or Java).
 ### Please select the statements that are correct
 
 - [X] Kafka Node is responsible to store topics
-- [ ] Zookeeper is removed from Kafka cluster starting from version 4.0
-- [X] Retention configuration ensures the messages not get lost over specific period of time.
+- [X] Zookeeper is removed from Kafka cluster starting from version 4.0
+- [ ] Retention configuration ensures the messages not get lost over specific period of time.
 - [X] Group-Id ensures the messages are distributed to associated consumers
-
-> Zookeeper is still an essential component in Kafka architecture, and it is used for coordination, configuration management, and maintaining the overall health of the cluster.
 
 ## Question 2
 
@@ -28,9 +26,9 @@ programming language (Python or Java).
 
 ### Please select the Kafka concepts that support scaling
 
-- [X] Topic Replication: This feature ensures that multiple copies of the data are stored across different brokers, which improves the durability and fault-tolerance of the system. It also helps to distribute the load across different brokers, which allows for better scaling of the system.
+- [ ] Topic Replication: This feature ensures that multiple copies of the data are stored across different brokers, which improves the durability and fault-tolerance of the system. It also helps to distribute the load across different brokers, which allows for better scaling of the system.
 - [X] Topic Paritioning: Partitioning allows for data parallelism and can improve throughput, availability, and scalability of the system by distributing the load across different brokers. It enables you to scale up the number of brokers and consumers to handle more traffic.
-- [ ] Consumer Group Id
+- [X] Consumer Group Id
 - [ ] Ack All
 
 ## Question 4
