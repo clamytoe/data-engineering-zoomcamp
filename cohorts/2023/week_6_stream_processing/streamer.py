@@ -25,13 +25,9 @@ df_green = (
     .load()
 )
 
-df_green_consume = (
-    df_green.select(
-        from_json(df_green.value.cast("string"), GREEN_SCHEMA).alias("data")
-    )
-    .select("data.PULocationID")
-    .withColumnRenamed("PULocationID", "pickup_location_id")
-)
+df_green.select(
+    from_json(df_green.value.cast("string"), GREEN_SCHEMA).alias("data")
+).select("data.PULocationID").withColumnRenamed("PULocationID", "pickup_location_id")
 
 df_fhv = (
     spark.readStream.format("kafka")
@@ -41,13 +37,11 @@ df_fhv = (
     .load()
 )
 
-df_fhv_consume = (
-    df_fhv.select(from_json(df_fhv.value.cast("string"), FHV_SCHEMA).alias("data"))
-    .select("data.PUlocationID")
-    .withColumnRenamed("PUlocationID", "pickup_location_id")
-)
+df_fhv.select(from_json(df_fhv.value.cast("string"), FHV_SCHEMA).alias("data")).select(
+    "data.PUlocationID"
+).withColumnRenamed("PUlocationID", "pickup_location_id")
 
-df_all_rides = df_green_consume.union(df_fhv_consume)
+df_all_rides = df_green.union(df_fhv)
 
 # Apply aggregations to find the most popular pickup location
 popular_pickup_locations = (
