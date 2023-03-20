@@ -9,6 +9,8 @@
 # ----- Web UIs ----------
 # Confluent Control Center: 9021
 # Conduktor Platform: 8080
+#     user: admin@conduktor.io
+#     password: admin
 # Kpow: 3000
 
 version: "3.9"
